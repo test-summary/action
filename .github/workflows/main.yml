@@ -1,0 +1,84 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  #
+  # Build and test
+  #
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+      - name: Build
+        run: |
+          npm ci
+          npm run build
+          npm run test
+      - name: Create test summary
+        uses: ./bin
+        with:
+          paths: test/results/*.xml
+          output: test/results/results.html
+      - name: Upload test summary
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-summary
+          path: test/results/results.html
+
+  #
+  # Publish the action to the `dist` branch
+  #
+  publish:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    needs: build
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v3
+      - name: Check out distribution branch
+        uses: actions/checkout@v3
+        with:
+          ref: 'dist'
+          path: 'dist'
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+      - name: Build
+        run: |
+          npm ci
+          npm run build
+          npm run pack
+
+          cp action.yml dist/
+          cp README.md dist/
+          cp LICENSE dist/
+      - name: Check for changes
+        id: status
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "::set-output name=has_changes::1"
+          fi
+        working-directory: dist
+      - name: Publish action
+        run: |
+          git add --verbose .
+          git config user.name 'Edward Thomson'
+          git config user.email 'ethomson@edwardthomson.com'
+          git commit -m 'Update from CI' --allow-empty
+          git push origin dist
+        if: steps.status.outputs.has_changes == '1'
+        working-directory: dist

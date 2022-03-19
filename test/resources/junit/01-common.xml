@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<testsuites>
+  <testsuite id="testsuite1">
+    <testcase id="com.example.test1" name="Test 1" time="0.001" />
+    <testcase id="com.example.test2" name="Test 2" time="0.001" />
+  </testsuite>
+  <testsuite id="testsuite2">
+    <testcase id="com.example.test1" name="Test 1" time="0.001" />
+    <testcase id="com.example.test2" name="Test 2" time="0.001" />
+    <testcase id="com.example.test3" name="Test 3" time="0.001" />
+    <testcase id="com.example.test4" name="Test 4" time="0.001" />
+    <testcase id="com.example.test5" name="Test 5" time="0.001" />
+    <testcase id="com.example.test6" name="Test 6" time="0.001">
+      <failure message="Failed!" type="WARNING" />
+    </testcase>
+  </testsuite>
+</testsuites>

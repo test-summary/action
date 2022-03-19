@@ -1,0 +1,57 @@
+{
+  "name": "test-summary",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Display test results in a GitHub Actions workflow",
+  "main": "bin/index.js",
+  "scripts": {
+    "build": "tsc && cp action.yml bin/",
+    "format": "prettier --write **/*.ts",
+    "lint": "eslint src/**/*.ts",
+    "pack": "ncc build",
+    "test": "mocha -r ts-node/register --reporter mocha-multi-reporters --reporter-options configFile=test/config.json test/**/*.ts",
+    "clean": "rm -rf bin dist",
+    "all": "npm run build && npm run lint && npm run pack && npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/test-summary/action.git"
+  },
+  "keywords": [
+    "actions",
+    "dashboard",
+    "test",
+    "summary",
+    "tap",
+    "junit",
+    "ci/cd"
+  ],
+  "author": "Edward Thomson",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.6.0",
+    "glob": "^7.2.0",
+    "glob-promise": "^4.2.2",
+    "xml2js": "^0.4.23"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.3.0",
+    "@types/chai-as-promised": "^7.1.5",
+    "@types/mocha": "^9.1.0",
+    "@types/node": "^17.0.21",
+    "@types/xml2js": "^0.4.9",
+    "@vercel/ncc": "^0.33.3",
+    "chai": "^4.3.6",
+    "chai-as-promised": "^7.1.1",
+    "eslint": "^8.10.0",
+    "eslint-plugin-github": "^4.3.5",
+    "eslint-plugin-jest": "^26.1.1",
+    "jest": "^27.5.1",
+    "mocha": "^9.2.1",
+    "mocha-junit-reporter": "^2.0.2",
+    "mocha-multi-reporters": "^1.5.1",
+    "prettier": "^2.5.1",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.2"
+  }
+}

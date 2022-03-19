@@ -1,0 +1,113 @@
+TAP version 13
+ok 1 - passes test one
+ok 2 - passes test two
+ok 3 - passes test three
+1..10
+ok 4 - passes test four
+not ok 5 - fails test five
+  ---
+  compare: ===
+  at:
+    line: 8
+    column: 5
+    file: test.js
+  stack: |
+    Object.<anonymous> (test.js:8:5)
+    Module.replacementCompile (node_modules/append-transform/index.js:60:13)
+    Object.<anonymous> (node_modules/append-transform/index.js:64:4)
+  source: |
+  
+    tap.equal(42, 42 + 1, "fails test five");
+    ----^
+    tap.equal(99, 99 - 1, "fails test six");
+    tap.equal("hello", "world", "fails test seven");
+  diff: |
+    --- expected
+    +++ actual
+    @@ -1,1 +1,1 @@
+    -43
+    +42
+  ...
+
+not ok 6 - fails test six
+  ---
+  compare: ===
+  at:
+    line: 9
+    column: 5
+    file: test.js
+  stack: |
+    Object.<anonymous> (test.js:9:5)
+    Module.replacementCompile (node_modules/append-transform/index.js:60:13)
+    Object.<anonymous> (node_modules/append-transform/index.js:64:4)
+  source: |
+    tap.equal(42, 42 + 1, "fails test five");
+    tap.equal(99, 99 - 1, "fails test six");
+    ----^
+    tap.equal("hello", "world", "fails test seven");
+    tap.equal("world", "hello", "fails test eight");
+  diff: |
+    --- expected
+    +++ actual
+    @@ -1,1 +1,1 @@
+    -98
+    +99
+  ...
+
+not ok 7 - fails test seven
+  ---
+  compare: ===
+  at:
+    line: 10
+    column: 5
+    file: test.js
+  stack: |
+    Object.<anonymous> (test.js:10:5)
+    Module.replacementCompile (node_modules/append-transform/index.js:60:13)
+    Object.<anonymous> (node_modules/append-transform/index.js:64:4)
+  source: |
+    tap.equal(99, 99 - 1, "fails test six");
+    tap.equal("hello", "world", "fails test seven");
+    ----^
+    tap.equal("world", "hello", "fails test eight");
+  diff: |
+    --- expected
+    +++ actual
+    @@ -1,1 +1,1 @@
+    -world
+    +hello
+  ...
+
+not ok 8 - fails test eight
+  ---
+  compare: ===
+  at:
+    line: 11
+    column: 5
+    file: test.js
+  stack: |
+    Object.<anonymous> (test.js:11:5)
+    Module.replacementCompile (node_modules/append-transform/index.js:60:13)
+    Object.<anonymous> (node_modules/append-transform/index.js:64:4)
+  source: >
+    tap.equal("hello", "world", "fails test seven");
+  
+    tap.equal("world", "hello", "fails test eight");
+  
+    ----^
+  
+  
+    tap.test("skips test nine", { skip: true }, child => { tap.equal(42, 99); child.end() })
+  diff: |
+    --- expected
+    +++ actual
+    @@ -1,1 +1,1 @@
+    -hello
+    +world
+  ...
+
+ok 9 - skips test nine # SKIP
+ok 10 - skips test ten # SKIP
+# failed 4 of 10 tests
+# skip: 2
+# time=40.111ms

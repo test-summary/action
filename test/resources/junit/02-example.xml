@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="90.078" tests="30" failures="9">
+  <testsuite name="Root Suite" timestamp="2022-03-07T01:42:21" tests="0" failures="0" time="0">
+  </testsuite>
+  <testsuite name="Arithmetic" timestamp="2022-03-07T01:42:21" tests="0" file="/Users/ethomson/Projects/calculator/test/arithmetic.js" failures="0" time="0">
+  </testsuite>
+  <testsuite name="Validation" timestamp="2022-03-07T01:42:21" tests="6" file="/Users/ethomson/Projects/calculator/test/arithmetic.js" failures="0" time="0.035">
+    <testcase name="Arithmetic Validation rejects missing operation" time="0.021" classname="rejects missing operation">
+    </testcase>
+    <testcase name="Arithmetic Validation rejects invalid operation" time="0.003" classname="rejects invalid operation">
+    </testcase>
+    <testcase name="Arithmetic Validation rejects missing operand1" time="0.004" classname="rejects missing operand1">
+    </testcase>
+    <testcase name="Arithmetic Validation rejects missing operand2" time="0.003" classname="rejects missing operand2">
+    </testcase>
+    <testcase name="Arithmetic Validation rejects operands with invalid sign" time="0.002" classname="rejects operands with invalid sign">
+    </testcase>
+    <testcase name="Arithmetic Validation rejects operands with invalid decimals" time="0.002" classname="rejects operands with invalid decimals">
+    </testcase>
+  </testsuite>
+  <testsuite name="Addition" timestamp="2022-03-07T01:42:21" tests="6" file="/Users/ethomson/Projects/calculator/test/arithmetic.js" failures="0" time="0.015">
+    <testcase name="Arithmetic Addition adds two positive integers" time="0.003" classname="adds two positive integers">
+    </testcase>
+    <testcase name="Arithmetic Addition adds zero to an integer" time="0.002" classname="adds zero to an integer">
+    </testcase>
+    <testcase name="Arithmetic Addition adds a negative integer to a positive integer" time="0.003" classname="adds a negative integer to a positive integer">
+    </testcase>
+    <testcase name="Arithmetic Addition adds two negative integers" time="0.002" classname="adds two negative integers">
+    </testcase>
+    <testcase name="Arithmetic Addition adds an integer to a floating point number" time="0.002" classname="adds an integer to a floating point number">
+    </testcase>
+    <testcase name="Arithmetic Addition adds with negative exponent" time="0.003" classname="adds with negative exponent">
+    </testcase>
+  </testsuite>
+  <testsuite name="Subtraction" timestamp="2022-03-07T01:42:21" tests="5" file="/Users/ethomson/Projects/calculator/test/arithmetic.js" failures="0" time="0.013999999999999999">
+    <testcase name="Arithmetic Subtraction subtracts two positive integers" time="0.003" classname="subtracts two positive integers">
+    </testcase>
+    <testcase name="Arithmetic Subtraction subtracts an integer from itself" time="0.002" classname="subtracts an integer from itself">
+    </testcase>
+    <testcase name="Arithmetic Subtraction subtracts a larger integer from another" time="0.003" classname="subtracts a larger integer from another">
+    </testcase>
+    <testcase name="Arithmetic Subtraction subtracts a negative integer from a positive integer" time="0.003" classname="subtracts a negative integer from a positive integer">
+    </testcase>
+    <testcase name="Arithmetic Subtraction subtracts an integer from a floating point number" time="0.003" classname="subtracts an integer from a floating point number">
+    </testcase>
+  </testsuite>
+  <testsuite name="Multiplication" timestamp="2022-03-07T01:42:21" tests="6" file="/Users/ethomson/Projects/calculator/test/arithmetic.js" failures="2" time="20.012">
+    <testcase name="Arithmetic Multiplication multiplies two positive integers" time="0.004" classname="multiplies two positive integers">
+    </testcase>
+    <testcase name="Arithmetic Multiplication multiplies a positive integer with zero" time="0.003" classname="multiplies a positive integer with zero">
+    </testcase>
+    <testcase name="Arithmetic Multiplication multiplies a positive integer and negative integer" time="0.002" classname="multiplies a positive integer and negative integer">
+    </testcase>
+    <testcase name="Arithmetic Multiplication multiplies two negative integers" time="0.001" classname="multiplies two negative integers">
+    </testcase>
+    <testcase name="Arithmetic Multiplication multiplies two floating point numbers" time="10.001" classname="multiplies two floating point numbers">
+      <failure message="Timeout of 10000ms exceeded. For async tests and hooks, ensure &quot;done()&quot; is called; if returning a Promise, ensure it resolves. (/Users/ethomson/Projects/calculator/test/arithmetic.js)" type="Error"><![CDATA[Error: Timeout of 10000ms exceeded. For async tests and hooks, ensure "done()" is called; if returning a Promise, ensure it resolves. (/Users/ethomson/Projects/calculator/test/arithmetic.js)
+    at listOnTimeout (node:internal/timers:559:17)
+    at processTimers (node:internal/timers:502:7)]]></failure>
+    </testcase>
+    <testcase name="Arithmetic Multiplication multiplies supporting exponential notation" time="10.001" classname="multiplies supporting exponential notation">
+      <failure message="Timeout of 10000ms exceeded. For async tests and hooks, ensure &quot;done()&quot; is called; if returning a Promise, ensure it resolves. (/Users/ethomson/Projects/calculator/test/arithmetic.js)" type="Error"><![CDATA[Error: Timeout of 10000ms exceeded. For async tests and hooks, ensure "done()" is called; if returning a Promise, ensure it resolves. (/Users/ethomson/Projects/calculator/test/arithmetic.js)
+    at listOnTimeout (node:internal/timers:559:17)
+    at processTimers (node:internal/timers:502:7)]]></failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Division" timestamp="2022-03-07T01:42:41" tests="7" file="/Users/ethomson/Projects/calculator/test/arithmetic.js" failures="7" time="70.002">
+    <testcase name="Arithmetic Division divides a positive integer by an integer factor " time="10" classname="divides a positive integer by an integer factor ">
+      <failure message="Timeout of 10000ms exceeded. For async tests and hooks, ensure &quot;done()&quot; is called; if returning a Promise, ensure it resolves. (/Users/ethomson/Projects/calculator/test/arithmetic.js)" type="Error"><![CDATA[Error: Timeout of 10000ms exceeded. For async tests and hooks, ensure "done()" is called; if returning a Promise, ensure it resolves. (/Users/ethomson/Projects/calculator/test/arithmetic.js)
+    at listOnTimeout (node:internal/timers:559:17)
+    at processTimers (node:internal/timers:502:7)]]></failure>
+    </testcase>
+    <testcase name="Arithmetic Division divides a negative integer by an integer factor " time="10.001" classname="divides a negative integer by an integer factor ">
+      <failure message="Timeout of 10000ms exceeded. For async tests and hooks, ensure &quot;done()&quot; is called; if returning a Promise, ensure it resolves. (/Users/ethomson/Projects/calculator/test/arithmetic.js)" type="Error"><![CDATA[Error: Timeout of 10000ms exceeded. For async tests and hooks, ensure "done()" is called; if returning a Promise, ensure it resolves. (/Users/ethomson/Projects/calculator/test/arithmetic.js)
+    at listOnTimeout (node:internal/timers:559:17)
+    at processTimers (node:internal/timers:502:7)]]></failure>
+    </testcase>
+    <testcase name="Arithmetic Division divides a positive integer by a non-factor" time="10" classname="divides a positive integer by a non-factor">
+      <failure message="Timeout of 10000ms exceeded. For async tests and hooks, ensure &quot;done()&quot; is called; if returning a Promise, ensure it resolves. (/Users/ethomson/Projects/calculator/test/arithmetic.js)" type="Error"><![CDATA[Error: Timeout of 10000ms exceeded. For async tests and hooks, ensure "done()" is called; if returning a Promise, ensure it resolves. (/Users/ethomson/Projects/calculator/test/arithmetic.js)
+    at listOnTimeout (node:internal/timers:559:17)
+    at processTimers (node:internal/timers:502:7)]]></failure>
+    </testcase>
+    <testcase name="Arithmetic Division divides a positive integer by a negative integer" time="10" classname="divides a positive integer by a negative integer">
+      <failure message="Timeout of 10000ms exceeded. For async tests and hooks, ensure &quot;done()&quot; is called; if returning a Promise, ensure it resolves. (/Users/ethomson/Projects/calculator/test/arithmetic.js)" type="Error"><![CDATA[Error: Timeout of 10000ms exceeded. For async tests and hooks, ensure "done()" is called; if returning a Promise, ensure it resolves. (/Users/ethomson/Projects/calculator/test/arithmetic.js)
+    at listOnTimeout (node:internal/timers:559:17)
+    at processTimers (node:internal/timers:502:7)]]></failure>
+    </testcase>
+    <testcase name="Arithmetic Division divides zero by a positive integer" time="10" classname="divides zero by a positive integer">
+      <failure message="Timeout of 10000ms exceeded. For async tests and hooks, ensure &quot;done()&quot; is called; if returning a Promise, ensure it resolves. (/Users/ethomson/Projects/calculator/test/arithmetic.js)" type="Error"><![CDATA[Error: Timeout of 10000ms exceeded. For async tests and hooks, ensure "done()" is called; if returning a Promise, ensure it resolves. (/Users/ethomson/Projects/calculator/test/arithmetic.js)
+    at listOnTimeout (node:internal/timers:559:17)
+    at processTimers (node:internal/timers:502:7)]]></failure>
+    </testcase>
+    <testcase name="Arithmetic Division divides by zero" time="10" classname="divides by zero">
+      <failure message="Timeout of 10000ms exceeded. For async tests and hooks, ensure &quot;done()&quot; is called; if returning a Promise, ensure it resolves. (/Users/ethomson/Projects/calculator/test/arithmetic.js)" type="Error"><![CDATA[Error: Timeout of 10000ms exceeded. For async tests and hooks, ensure "done()" is called; if returning a Promise, ensure it resolves. (/Users/ethomson/Projects/calculator/test/arithmetic.js)
+    at listOnTimeout (node:internal/timers:559:17)
+    at processTimers (node:internal/timers:502:7)]]></failure>
+    </testcase>
+    <testcase name="Arithmetic Division divides by zero" time="10.001" classname="divides by zero">
+      <failure message="Timeout of 10000ms exceeded. For async tests and hooks, ensure &quot;done()&quot; is called; if returning a Promise, ensure it resolves. (/Users/ethomson/Projects/calculator/test/arithmetic.js)" type="Error"><![CDATA[Error: Timeout of 10000ms exceeded. For async tests and hooks, ensure "done()" is called; if returning a Promise, ensure it resolves. (/Users/ethomson/Projects/calculator/test/arithmetic.js)
+    at listOnTimeout (node:internal/timers:559:17)
+    at processTimers (node:internal/timers:502:7)]]></failure>
+    </testcase>
+  </testsuite>
+</testsuites>

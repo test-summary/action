@@ -1,0 +1,22 @@
+TAP version 13
+1..12
+ok 1 - description 1
+ok 2-description 2
+ok 3 description 3
+ok - no number 4
+ok-no number 5
+ok no number 6
+not ok 7 - description 7
+not ok 8-description 8
+not ok 9 description 9
+not ok - no number 10 
+not ok-no number 11
+not ok no number 12
+ok 13 - # SKIP skip 13
+ok 14 - # SKIPPED skip 14
+ok 15-# skip skip 15
+ok - # skip skip 16
+ok-# skip skip 17
+not ok 18 - # TODO number 18
+not ok 19-# TODO number 19
+not ok 20 # todo number 20

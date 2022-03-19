@@ -1,0 +1,18 @@
+name: 'TestForest Dashboard'
+description: 'Display test results summary in a GitHub Actions workflow'
+author: 'Edward Thomson'
+inputs:
+  paths:
+    description: Path(s) to test output file(s) to analyze
+    required: true
+  output:
+    description: File to write with rendered output
+    required: true
+  show:
+    description: Types of tests to show in the results table
+runs:
+  using: 'node12'
+  main: 'index.js'
+branding:
+  icon: check-square
+  color: green
