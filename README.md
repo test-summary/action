@@ -60,7 +60,7 @@ Options
 -------
 Options are specified on the [`with` map](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepswith) of the action.
 
-* **`paths`: the paths for input files** (required)
+* **`paths`: the paths for input files** (required)  
   One or more file [glob patterns](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet) that specify the test results files in JUnit XML or TAP format.
 
   * To specify a single file, provide it directly as a string value to the `paths` key. For example:
@@ -90,7 +90,7 @@ Options are specified on the [`with` map](https://docs.github.com/en/actions/usi
         paths: "test/results/**/TEST-*.xml"
     ```
 
-* **`output`: the output file to create** (required)
+* **`output`: the output file to create** (required)  
   This is the path to the output file to populate with the test summary markdown data. For example:
 
   ```yaml
@@ -103,7 +103,7 @@ Options are specified on the [`with` map](https://docs.github.com/en/actions/usi
 
 FAQ
 ---
-* How is the summary graphic generated? Does any of my data ever leave GitHub?
+* **How is the summary graphic generated? Does any of my data ever leave GitHub?**  
   None of your data ever leaves GitHub. Test results are read within GitHub Actions by the test-summary action, and a link to an SVG with the test results numbers is created. This the graphic is both fetched and subsequently cached by GitHub's image service. This service provides no referral information to remote hosts. This means that no information at all about your workflow - the repository name, test results, or other information - is available to the image generator service.
 
 Questions / Help / Contact
