@@ -16,7 +16,7 @@ const footer = `This test report was produced by the <a href="https://github.com
 async function run(): Promise<void> {
   try {
     const pathGlobs = core.getInput("paths", { required: true })
-    const outputFile = core.getInput("output", { required: true })
+    const outputFile = core.getInput("output") || process.env.GITHUB_STEP_SUMMARY || "-"
     const showList = core.getInput("show")
 
     /*
