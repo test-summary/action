@@ -8,7 +8,7 @@
     "build": "tsc && cp action.yml bin/",
     "format": "prettier --write **/*.ts",
     "lint": "eslint src/**/*.ts",
-    "pack": "ncc build",
+    "pack": "npm run build && ncc build",
     "test": "mocha -r ts-node/register --reporter mocha-multi-reporters --reporter-options configFile=test/config.json test/**/*.ts",
     "clean": "rm -rf bin dist",
     "all": "npm run build && npm run lint && npm run pack && npm test"
