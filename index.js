@@ -54,7 +54,7 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const pathGlobs = core.getInput("paths", { required: true });
-            const outputFile = core.getInput("output", { required: true });
+            const outputFile = core.getInput("output") || process.env.GITHUB_STEP_SUMMARY || "-";
             const showList = core.getInput("show");
             /*
              * Given paths may either be an individual path (eg "foo.xml"), a path

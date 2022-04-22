@@ -7,7 +7,6 @@ inputs:
     required: true
   output:
     description: File to write with rendered output
-    required: true
   show:
     description: Types of tests to show in the results table
 runs:
