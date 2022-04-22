@@ -20,7 +20,6 @@ To set up the test summary action, just add a few lines of YAML to your GitHub A
   uses: test-summary/action@v1
   with:
     paths: "test/results/**/TEST-*.xml"
-    output: test-summary.md
   if: always()
 ```
 
@@ -33,7 +32,6 @@ Update `paths` to match the test output file(s) that your test harness produces.
     paths: |
       test-one/**/TEST-*.xml
       test-two/results/results.tap
-    output: test-summary.md
   if: always()
 ```
 
@@ -90,7 +88,7 @@ Options are specified on the [`with` map](https://docs.github.com/en/actions/usi
         paths: "test/results/**/TEST-*.xml"
     ```
 
-* **`output`: the output file to create** (required)  
+* **`output`: the output file to create** (optional)  
   This is the path to the output file to populate with the test summary markdown data. For example:
 
   ```yaml
@@ -98,6 +96,8 @@ Options are specified on the [`with` map](https://docs.github.com/en/actions/usi
     with:
       output: "test/results/summary.md"
   ```
+
+  If this is not specified, the output will be to the workflow summary.
 
   This file is [GitHub Flavored Markdown (GFM)](https://github.github.com/gfm/) and may include permitted HTML.
 
