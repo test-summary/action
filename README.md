@@ -101,6 +101,19 @@ Options are specified on the [`with` map](https://docs.github.com/en/actions/usi
 
   This file is [GitHub Flavored Markdown (GFM)](https://github.github.com/gfm/) and may include permitted HTML.
 
+* **`show`: which tests have to be shown in the summary** (optional, by default just the failed tests are shown in the summary)
+
+  - To show all tests, specify: `show: "all"`. For example:
+
+    ```yaml
+    - uses: test-summary/action@v1
+      with:
+        show: "all"
+    ```
+
+  - To show no tests, specify: `show: "none"`
+
+
 FAQ
 ---
 * **How is the summary graphic generated? Does any of my data ever leave GitHub?**  
