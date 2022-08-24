@@ -87,4 +87,23 @@ describe("junit", async () => {
         expect(result.suites[0].cases[8].name).to.eql("skipsTestNine")
         expect(result.suites[0].cases[9].name).to.eql("skipsTestTen")
     })
+
+  it("parses bazel", async() => {
+    // Not a perfect example of Bazel JUnit output - it typically does one file
+    // per test target, and aggregates all the test cases from the test tooling
+    // into one Junit testsuite / testcase. This does depend on the actual
+    // test platform; my experience is mostly with py_test() targets.
+    const result = await parseJunitFile(`${resourcePath}/04-bazel-junit.xml`)
+
+        expect(result.counts.passed).to.eql(1)
+        expect(result.counts.failed).to.eql(1)
+        expect(result.counts.skipped).to.eql(0)
+
+        expect(result.suites.length).to.eql(2)
+
+        expect(result.suites[0].cases[0].name).to.eql("dummy/path/to/project/and/failing_test_target")
+        expect(result.suites[0].cases[0].status).to.eql(TestStatus.Fail)
+        expect(result.suites[1].cases[0].name).to.eql("dummy/path/to/project/and/passing_test_target")
+        expect(result.suites[1].cases[0].status).to.eql(TestStatus.Pass)
+  })
 })

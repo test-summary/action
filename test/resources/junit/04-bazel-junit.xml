@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="dummy/path/to/project/and/failing_test_target" tests="1" failures="0" errors="1">
+    <testcase name="dummy/path/to/project/and/failing_test_target" status="run" duration="54" time="54"><error message="exited with error code 1"></error></testcase>
+    <system-out>
+Generated test.log (if the file is not UTF-8, then this may be unreadable):
+<![CDATA[exec ${PAGER:-/usr/bin/less} "$0" || exit 1
+Executing tests from //adummy/path/to/project/and:failing_test_target
+-----------------------------------------------------------------------------
+dummy/path/to/project/and/failing_test_target.py
+============================= test session starts ==============================
+OMITTED
+======================== 1 failed, 5 warnings in 43.45s ========================]]>
+    </system-out>
+  </testsuite>
+  <testsuite name="dummy/path/to/project/and/passing_test_target" tests="1" failures="0" errors="0">
+    <testcase name="dummy/path/to/project/and/passing_test_target" status="run" duration="20" time="20"></testcase>
+    <system-out>
+Generated test.log (if the file is not UTF-8, then this may be unreadable):
+<![CDATA[exec ${PAGER:-/usr/bin/less} "$0" || exit 1
+Executing tests from //adummy/path/to/project/and:passing_test_target
+-----------------------------------------------------------------------------
+dummy/path/to/project/and/passing_test_target.py
+============================= test session starts ==============================
+OMITTED
+======================== 1 passed, 1 warning in 14.75s =========================]]>
+    </system-out>
+  </testsuite>
+</testsuites>

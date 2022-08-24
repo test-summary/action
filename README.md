@@ -9,11 +9,13 @@ Produce an easy-to-read summary of your project's test data as part of your GitH
 * Integrates easily with your existing GitHub Actions workflow
 * Produces summaries from JUnit XML and TAP test output
 * Compatible with most testing tools for most development platforms
-* Customizable to show just a summary, just failed tests, or all test results.
+* Produces step outputs, so you can pass summary data to other actions
+* Customizable to show just a summary, just failed tests, or all test results
+* Output can go to the [Github job summary](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#adding-a-job-summary) (default) or to a file or `stdout`
 
 Getting Started
 ---------------
-To set up the test summary action, just add a few lines of YAML to your GitHub Actions workflow. For example, if your test harness produces JUnit XML outputs in the `test/results/` directory, and you want to produce a test summary in a file named `test-summary.md`, add a new step to your workflow YAML after your build and test step:
+To set up the test summary action, just add a few lines of YAML to your GitHub Actions workflow. For example, if your test harness produces JUnit XML outputs in the `test/results/` directory, and you want the output attached to the job summary, add a new step to your workflow YAML after your build and test step:
 
 ```yaml
 - name: Test Summary
@@ -37,11 +39,20 @@ Update `paths` to match the test output file(s) that your test harness produces.
 
 > Note the `if: always()` conditional in this workflow step: you should always use this so that the test summary creation step runs _even if_ the previous steps have failed. This allows your test step to fail -- due to failing tests -- but still produce a test summary.
 
-Upload the markdown
--------------------
-The prior "getting started" step generates a summary in GitHub-flavored Markdown (GFM). Once the markdown is generated, you can upload it as a build artifact, add it to a pull request comment, or add it to an issue. For example, to upload the markdown generated in the prior example as a build artifact:
+Generating and uploading a markdown file
+----------------------------------------
+You can also generate the summary in a GitHub-flavored Markdown (GFM) file, and upload it as a build artifact, add it to a pull request comment, or add it to an issue. Use the `output` parameter to define the target file.
+
+For example, to create a summary and upload the markdown as a build artifact:
 
 ```yaml
+- name: Test Summary
+  uses: test-summary/action@v1
+  with:
+    paths: "test/results/**/TEST-*.xml"
+    output: test-summary.md
+  if: always()
+
 - name: Upload test summary
   uses: actions/upload-artifact@v3
   with:
@@ -49,6 +60,30 @@ The prior "getting started" step generates a summary in GitHub-flavored Markdown
     path: test-summary.md
   if: always()
 ```
+
+Outputs
+-------
+This action also generates several outputs you can reference in other steps, or even from your job or workflow. These outputs are `passed`, `failed`, `skipped`, and `total`.
+
+For example, you may want to send a summary to Slack:
+
+```yaml
+- name: Test Summary
+  id: test_summary
+  uses: test-summary/action@v1
+  with:
+    paths: "test/results/**/TEST-*.xml"
+  if: always()
+- name: Notify Slack
+  uses: slackapi/slack-github-action@v1.19.0
+  with:
+    payload: |-
+      {
+        "message": "${{ steps.test_summary.outputs.passed }}/${{ steps.test_summary.outputs.total }} tests passed"
+      }
+  if: always()
+```
+
 
 Examples
 --------
@@ -94,12 +129,23 @@ Options are specified on the [`with` map](https://docs.github.com/en/actions/usi
   ```yaml
   - uses: test-summary/action@v1
     with:
+      paths: "test/results/**/TEST-*.xml"
       output: "test/results/summary.md"
   ```
 
   If this is not specified, the output will be to the workflow summary.
 
   This file is [GitHub Flavored Markdown (GFM)](https://github.github.com/gfm/) and may include permitted HTML.
+
+* **`show`: the test results to summarize in a table** (optional)
+  This controls whether a test summary table is created or not, as well as what tests are included. It could be `all`, `none`, `pass`, `skip`, or `fail`. The default is `fail` - that is, the summary table will only show the failed tests. For example, if you wanted to show failed and skipped tests:
+
+  ```yaml
+  - uses: test-summary/action@v1
+    with:
+      paths: "test/results/**/TEST-*.xml"
+      show: "fail, skip"
+  ```
 
 FAQ
 ---
