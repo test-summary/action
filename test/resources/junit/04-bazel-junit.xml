@@ -5,7 +5,7 @@
     <system-out>
 Generated test.log (if the file is not UTF-8, then this may be unreadable):
 <![CDATA[exec ${PAGER:-/usr/bin/less} "$0" || exit 1
-Executing tests from //adummy/path/to/project/and:failing_test_target
+Executing tests from //dummy/path/to/project/and:failing_test_target
 -----------------------------------------------------------------------------
 dummy/path/to/project/and/failing_test_target.py
 ============================= test session starts ==============================
@@ -18,7 +18,7 @@ OMITTED
     <system-out>
 Generated test.log (if the file is not UTF-8, then this may be unreadable):
 <![CDATA[exec ${PAGER:-/usr/bin/less} "$0" || exit 1
-Executing tests from //adummy/path/to/project/and:passing_test_target
+Executing tests from //dummy/path/to/project/and:passing_test_target
 -----------------------------------------------------------------------------
 dummy/path/to/project/and/passing_test_target.py
 ============================= test session starts ==============================
