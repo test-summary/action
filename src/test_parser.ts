@@ -241,9 +241,9 @@ async function parseJunitXml(xml: any): Promise<TestResult> {
                 status = TestStatus.Skip
 
                 counts.skipped++
-            } else if (testcase.failure) {
+            } else if (testcase.failure || testcase.error) {
                 status = TestStatus.Fail
-                details = testcase.failure[0]._
+                details = (testcase.failure || testcase.error)[0]._
 
                 counts.failed++
             } else {

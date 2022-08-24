@@ -115,6 +115,12 @@ async function run(): Promise<void> {
         const writefile = util.promisify(fs.writeFile)
         await writefile(outputFile, output)
     }
+
+    core.setOutput('passed', total.counts.passed)
+    core.setOutput('failed', total.counts.failed)
+    core.setOutput('skipped', total.counts.skipped)
+    core.setOutput('total', total.counts.passed + total.counts.failed + total.counts.skipped)
+
   } catch (error) {
     if (error instanceof Error) {
       core.setFailed(error.message)
