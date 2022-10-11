@@ -1,8 +1,8 @@
 Test Summary
 ============
-![Test dashboard: 42 tests passed](http://svg.test-summary.com/dashboard.svg?p=42)
-![Test dashboard: 42 tests failed](http://svg.test-summary.com/dashboard.svg?f=42)
-![Test dashboard: 42 tests passed, 8 tests failed, 18 tests skipped](http://svg.test-summary.com/dashboard.svg?p=42&f=8&s=18)
+![Test dashboard: 42 tests passed](https://svg.test-summary.com/dashboard.svg?p=42)
+![Test dashboard: 42 tests failed](https://svg.test-summary.com/dashboard.svg?f=42)
+![Test dashboard: 42 tests passed, 8 tests failed, 18 tests skipped](https://svg.test-summary.com/dashboard.svg?p=42&f=8&s=18)
 
 Produce an easy-to-read summary of your project's test data as part of your GitHub Actions CI/CD workflow. This helps you understand at-a-glance the impact to the changes in your pull requests, and see which changes are introducing new problems.
 
