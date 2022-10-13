@@ -17,7 +17,7 @@ To set up the test summary action, just add a few lines of YAML to your GitHub A
 
 ```yaml
 - name: Test Summary
-  uses: test-summary/action@v1
+  uses: test-summary/action@v2
   with:
     paths: "test/results/**/TEST-*.xml"
   if: always()
@@ -27,7 +27,7 @@ Update `paths` to match the test output file(s) that your test harness produces.
 
 ```yaml
 - name: Test Summary
-  uses: test-summary/action@v1
+  uses: test-summary/action@v2
   with:
     paths: |
       test-one/**/TEST-*.xml
@@ -64,7 +64,7 @@ Options are specified on the [`with` map](https://docs.github.com/en/actions/usi
   * To specify a single file, provide it directly as a string value to the `paths` key. For example:
 
     ```yaml
-    - uses: test-summary/action@v1
+    - uses: test-summary/action@v2
       with:
         paths: "tests/results.xml"
     ```
@@ -72,7 +72,7 @@ Options are specified on the [`with` map](https://docs.github.com/en/actions/usi
   * To specify multiple files, provide them as a multi-line string value to the `paths` key. For example:
 
     ```yaml
-    - uses: test-summary/action@v1
+    - uses: test-summary/action@v2
       with:
         paths: |
           tests-one/results.xml
@@ -83,7 +83,7 @@ Options are specified on the [`with` map](https://docs.github.com/en/actions/usi
   * You can specify files as a [glob patterns](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet), allowing you to use wildcards to match multiple files. For example, to match all files named `TEST-*.xml` beneath the `tests` folder, recursively:
 
     ```yaml
-    - uses: test-summary/action@v1
+    - uses: test-summary/action@v2
       with:
         paths: "test/results/**/TEST-*.xml"
     ```
@@ -92,7 +92,7 @@ Options are specified on the [`with` map](https://docs.github.com/en/actions/usi
   This is the path to the output file to populate with the test summary markdown data. For example:
 
   ```yaml
-  - uses: test-summary/action@v1
+  - uses: test-summary/action@v2
     with:
       output: "test/results/summary.md"
   ```
