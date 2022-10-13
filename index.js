@@ -44,11 +44,11 @@ const util = __importStar(__nccwpck_require__(3837));
 const core = __importStar(__nccwpck_require__(2186));
 const glob = __importStar(__nccwpck_require__(8252));
 const test_parser_1 = __nccwpck_require__(2393);
-const dashboardUrl = 'http://svg.test-summary.com/dashboard.svg';
-const passIconUrl = 'http://svg.test-summary.com/icon/pass.svg?s=12';
-const failIconUrl = 'http://svg.test-summary.com/icon/fail.svg?s=12';
-const skipIconUrl = 'http://svg.test-summary.com/icon/skip.svg?s=12';
-const noneIconUrl = 'http://svg.test-summary.com/icon/none.svg?s=12';
+const dashboardUrl = 'https://svg.test-summary.com/dashboard.svg';
+const passIconUrl = 'https://svg.test-summary.com/icon/pass.svg?s=12';
+const failIconUrl = 'https://svg.test-summary.com/icon/fail.svg?s=12';
+const skipIconUrl = 'https://svg.test-summary.com/icon/skip.svg?s=12';
+const noneIconUrl = 'https://svg.test-summary.com/icon/none.svg?s=12';
 const footer = `This test report was produced by the <a href="https://github.com/test-summary/action">test-summary action</a>.&nbsp; Made with ❤️ in Cambridge.`;
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
