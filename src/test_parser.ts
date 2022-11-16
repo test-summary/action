@@ -199,8 +199,21 @@ export async function parseTap(data: string): Promise<TestResult> {
 }
 
 async function parseJunitXml(xml: any): Promise<TestResult> {
+    const counts = {
+        passed: 0,
+        failed: 0,
+        skipped: 0
+    }
+    const suites: TestSuite[] = [ ]
+        
+    if (xml.testsuites === "" || xml.testsuite === "") {
+        return {
+            counts: counts,
+            suites: suites
+        }
+    }
+    
     let testsuites
-
     if (xml.testsuites) {
         testsuites = xml.testsuites.testsuite
     } else if (xml.testsuite) {
@@ -211,13 +224,6 @@ async function parseJunitXml(xml: any): Promise<TestResult> {
 
     if (!Array.isArray(testsuites)) {
         throw new Error("expected array of testsuites")
-    }
-
-    const suites: TestSuite[] = [ ]
-    const counts = {
-        passed: 0,
-        failed: 0,
-        skipped: 0
     }
 
     for (const testsuite of testsuites) {
@@ -304,7 +310,7 @@ export async function parseFile(filename: string): Promise<TestResult> {
 
     const xml: any = await parser(data)
 
-    if (xml.testsuites || xml.testsuite) {
+    if (xml.testsuites || xml.testsuites === "" || xml.testsuite || xml.testsuite === "") {
         return await parseJunitXml(xml)
     }
 
