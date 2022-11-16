@@ -105,5 +105,14 @@ describe("junit", async () => {
         expect(result.suites[0].cases[0].status).to.eql(TestStatus.Fail)
         expect(result.suites[1].cases[0].name).to.eql("dummy/path/to/project/and/passing_test_target")
         expect(result.suites[1].cases[0].status).to.eql(TestStatus.Pass)
-  })
+    })
+
+    it("parses empty", async () => {
+        const result = await parseJunitFile(`${resourcePath}/05-empty.xml`)
+
+        expect(result.counts.passed).to.eql(0)
+        expect(result.counts.failed).to.eql(0)
+        expect(result.counts.skipped).to.eql(0)
+        expect(result.suites.length).to.eql(0)
+    })
 })
