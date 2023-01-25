@@ -11,7 +11,7 @@ Produce an easy-to-read summary of your project's test data as part of your GitH
 * Compatible with most testing tools for most development platforms
 * Produces step outputs, so you can pass summary data to other actions
 * Customizable to show just a summary, just failed tests, or all test results
-* Output can go to the [Github job summary](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#adding-a-job-summary) (default) or to a file or `stdout`
+* Output can go to the [GitHub job summary](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#adding-a-job-summary) (default), to a file or `stdout`
 
 Getting Started
 ---------------
@@ -83,7 +83,6 @@ For example, you may want to send a summary to Slack:
       }
   if: always()
 ```
-
 
 Examples
 --------
