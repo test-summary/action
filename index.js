@@ -419,10 +419,10 @@ exports.parseTap = parseTap;
 function parseJunitXml(xml) {
     return __awaiter(this, void 0, void 0, function* () {
         let testsuites;
-        if (xml.testsuites) {
-            testsuites = xml.testsuites.testsuite;
+        if ('testsuites' in xml) {
+            testsuites = xml.testsuites.testsuite || [];
         }
-        else if (xml.testsuite) {
+        else if ('testsuite' in xml) {
             testsuites = [xml.testsuite];
         }
         else {
