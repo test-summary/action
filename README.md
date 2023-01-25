@@ -47,7 +47,7 @@ For example, to create a summary and upload the markdown as a build artifact:
 
 ```yaml
 - name: Test Summary
-  uses: test-summary/action@v1
+  uses: test-summary/action@v2
   with:
     paths: "test/results/**/TEST-*.xml"
     output: test-summary.md
@@ -70,7 +70,7 @@ For example, you may want to send a summary to Slack:
 ```yaml
 - name: Test Summary
   id: test_summary
-  uses: test-summary/action@v1
+  uses: test-summary/action@v2
   with:
     paths: "test/results/**/TEST-*.xml"
   if: always()
@@ -140,7 +140,7 @@ Options are specified on the [`with` map](https://docs.github.com/en/actions/usi
   This controls whether a test summary table is created or not, as well as what tests are included. It could be `all`, `none`, `pass`, `skip`, or `fail`. The default is `fail` - that is, the summary table will only show the failed tests. For example, if you wanted to show failed and skipped tests:
 
   ```yaml
-  - uses: test-summary/action@v1
+  - uses: test-summary/action@v2
     with:
       paths: "test/results/**/TEST-*.xml"
       show: "fail, skip"
