@@ -201,9 +201,9 @@ export async function parseTap(data: string): Promise<TestResult> {
 async function parseJunitXml(xml: any): Promise<TestResult> {
     let testsuites
 
-    if (xml.testsuites) {
-        testsuites = xml.testsuites.testsuite
-    } else if (xml.testsuite) {
+    if ('testsuites' in xml) {
+        testsuites = xml.testsuites.testsuite || [ ]
+    } else if ('testsuite' in xml) {
         testsuites = [ xml.testsuite ]
     } else {
         throw new Error("expected top-level testsuites or testsuite node")
