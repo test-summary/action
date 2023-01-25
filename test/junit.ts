@@ -89,11 +89,11 @@ describe("junit", async () => {
     })
 
   it("parses bazel", async() => {
-    // Not a perfect example of Bazel JUnit output - it typically does one file
-    // per test target, and aggregates all the test cases from the test tooling
-    // into one Junit testsuite / testcase. This does depend on the actual
-    // test platform; my experience is mostly with py_test() targets.
-    const result = await parseJunitFile(`${resourcePath}/04-bazel-junit.xml`)
+      // Not a perfect example of Bazel JUnit output - it typically does one file
+      // per test target, and aggregates all the test cases from the test tooling
+      // into one Junit testsuite / testcase. This does depend on the actual
+      // test platform; my experience is mostly with py_test() targets.
+      const result = await parseJunitFile(`${resourcePath}/04-bazel-junit.xml`)
 
         expect(result.counts.passed).to.eql(1)
         expect(result.counts.failed).to.eql(1)
