@@ -4,14 +4,7 @@ import * as core from "@actions/core"
 import * as glob from "glob-promise"
 
 import { TestResult, TestStatus, parseFile } from "./test_parser"
-
-const dashboardUrl = 'https://svg.test-summary.com/dashboard.svg'
-const passIconUrl = 'https://svg.test-summary.com/icon/pass.svg?s=12'
-const failIconUrl = 'https://svg.test-summary.com/icon/fail.svg?s=12'
-const skipIconUrl = 'https://svg.test-summary.com/icon/skip.svg?s=12'
-const noneIconUrl = 'https://svg.test-summary.com/icon/none.svg?s=12'
-
-const footer = `This test report was produced by the <a href="https://github.com/test-summary/action">test-summary action</a>.&nbsp; Made with ❤️ in Cambridge.`
+import { dashboardResults, dashboardSummary } from "./dashboard"
 
 async function run(): Promise<void> {
     try {
@@ -129,85 +122,6 @@ async function run(): Promise<void> {
             core.setFailed("unknown error")
         }
     }
-}
-
-function dashboardSummary(result: TestResult) {
-    const count = result.counts
-    let summary = ""
-
-    if (count.passed > 0) {
-        summary += `${count.passed} passed`
-    }
-    if (count.failed > 0) {
-        summary += `${summary ? ', ' : '' }${count.failed} failed`
-    }
-    if (count.skipped > 0) {
-        summary += `${summary ? ', ' : '' }${count.skipped} skipped`
-    }
-
-    return `<img src="${dashboardUrl}?p=${count.passed}&f=${count.failed}&s=${count.skipped}" alt="${summary}">`
-}
-
-function dashboardResults(result: TestResult, show: number) {
-    let table = "<table>"
-    let count = 0
-    let title: string
-
-    if (show == TestStatus.Fail) {
-        title = "Test failures"
-    } else if (show === TestStatus.Skip) {
-        title = "Skipped tests"
-    } else if (show === TestStatus.Pass) {
-        title = "Passing tests"
-    } else {
-        title = "Test results"
-    }
-
-    table += `<tr><th align="left">${title}:</th></tr>`
-
-    for (const suite of result.suites) {
-        for (const testcase of suite.cases) {
-            if (show != 0 && (show & testcase.status) == 0) {
-                continue
-            }
-
-            table += "<tr><td>"
-
-            if (testcase.status == TestStatus.Pass) {
-                table += `<img src="${passIconUrl}" alt="">&nbsp; `
-            } else if (testcase.status == TestStatus.Fail) {
-                table += `<img src="${failIconUrl}" alt="">&nbsp; `
-            } else if (testcase.status == TestStatus.Skip) {
-                table += `<img src="${skipIconUrl}" alt="">&nbsp; `
-            }
-
-            table += testcase.name
-
-            if (testcase.description) {
-                table += ": "
-                table += testcase.description
-            }
-
-            if (testcase.details) {
-                table += "<br/><pre><code>"
-                table += testcase.details
-                table += "</code></pre>"
-            }
-
-            table += "</td></tr>\n"
-
-            count++
-        }
-    }
-
-    table += `<tr><td><sub>${footer}</sub></td></tr>`
-    table += "</table>"
-
-    if (count == 0) {
-        return ""
-    }
-
-    return table
 }
 
 run()
