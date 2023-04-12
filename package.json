@@ -32,7 +32,7 @@
     "@actions/core": "^1.10.0",
     "glob": "^8.1.0",
     "glob-promise": "^6.0.2",
-    "xml2js": "^0.4.23"
+    "xml2js": "^0.5.0"
   },
   "devDependencies": {
     "@types/chai": "^4.3.4",
