@@ -19,6 +19,11 @@ describe("dashboard", async () => {
                             status: TestStatus.Fail,
                             name: "another name escaped 'properly'", // single quotes require escaping
                             description: "another description escaped & properly", // ampersand requires escaping
+                        },
+                        {
+                            status: TestStatus.Fail,
+                            name: "entities ' are & escaped < in > proper & order",
+                            description: "order is important in a multi-pass replacement",
                         }
                     ]
                 }
@@ -29,6 +34,7 @@ describe("dashboard", async () => {
         expect(actual).contains("description escaped &quot;properly&quot;")
         expect(actual).contains("another name escaped &apos;properly&apos;")
         expect(actual).contains("another description escaped &amp; properly")
+        expect(actual).contains("entities &apos; are &amp; escaped &lt; in &gt; proper &amp; order")
     })
 
     it("uses <no name> for test cases without name", async () => {
