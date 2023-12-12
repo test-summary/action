@@ -1,6 +1,127 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ 4770:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.dashboardResults = exports.dashboardSummary = void 0;
+const escape_html_1 = __importDefault(__nccwpck_require__(695));
+const test_parser_1 = __nccwpck_require__(2393);
+const dashboardUrl = "https://svg.test-summary.com/dashboard.svg";
+const passIconUrl = "https://svg.test-summary.com/icon/pass.svg?s=12";
+const failIconUrl = "https://svg.test-summary.com/icon/fail.svg?s=12";
+const skipIconUrl = "https://svg.test-summary.com/icon/skip.svg?s=12";
+// not used: const noneIconUrl = 'https://svg.test-summary.com/icon/none.svg?s=12'
+const unnamedTestCase = "<no name>";
+const footer = `This test report was produced by the <a href="https://github.com/test-summary/action">test-summary action</a>.&nbsp; Made with ❤️ in Cambridge.`;
+function dashboardSummary(result) {
+    const count = result.counts;
+    let summary = "";
+    if (count.passed > 0) {
+        summary += `${count.passed} passed`;
+    }
+    if (count.failed > 0) {
+        summary += `${summary ? ", " : ""}${count.failed} failed`;
+    }
+    if (count.skipped > 0) {
+        summary += `${summary ? ", " : ""}${count.skipped} skipped`;
+    }
+    return `<img src="${dashboardUrl}?p=${count.passed}&f=${count.failed}&s=${count.skipped}" alt="${summary}">`;
+}
+exports.dashboardSummary = dashboardSummary;
+function dashboardResults(result, show) {
+    let table = "<table>";
+    let count = 0;
+    table += `<tr><th align="left">${statusTitle(show)}:</th></tr>`;
+    for (const suite of result.suites) {
+        for (const testcase of suite.cases) {
+            if (show !== 0 && (show & testcase.status) === 0) {
+                continue;
+            }
+            table += "<tr><td>";
+            const icon = statusIcon(testcase.status);
+            if (icon) {
+                table += icon;
+                table += "&nbsp; ";
+            }
+            table += (0, escape_html_1.default)(testcase.name || unnamedTestCase);
+            if (testcase.description) {
+                table += ": ";
+                table += (0, escape_html_1.default)(testcase.description);
+            }
+            if (testcase.details) {
+                table += "<br/>\n";
+                table += "<pre><code>";
+                table += (0, escape_html_1.default)(testcase.details);
+                table += "</code></pre>";
+            }
+            table += "</td></tr>\n";
+            count++;
+        }
+    }
+    table += `<tr><td><sub>${footer}</sub></td></tr>`;
+    table += "</table>";
+    if (count === 0) {
+        return "";
+    }
+    return table;
+}
+exports.dashboardResults = dashboardResults;
+function statusTitle(status) {
+    switch (status) {
+        case test_parser_1.TestStatus.Fail:
+            return "Test failures";
+        case test_parser_1.TestStatus.Skip:
+            return "Skipped tests";
+        case test_parser_1.TestStatus.Pass:
+            return "Passing tests";
+        default:
+            return "Test results";
+    }
+}
+function statusIcon(status) {
+    switch (status) {
+        case test_parser_1.TestStatus.Pass:
+            return `<img src="${passIconUrl}" alt="" />`;
+        case test_parser_1.TestStatus.Fail:
+            return `<img src="${failIconUrl}" alt="" />`;
+        case test_parser_1.TestStatus.Skip:
+            return `<img src="${skipIconUrl}" alt="" />`;
+        default:
+            return;
+    }
+}
+
+
+/***/ }),
+
+/***/ 695:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const lookup = {
+    "&": "&amp;",
+    '"': "&quot;",
+    "'": "&apos;",
+    "<": "&lt;",
+    ">": "&gt;"
+};
+function escapeHTML(s) {
+    return s.replace(/[&"'<>]/g, c => lookup[c]);
+}
+exports["default"] = escapeHTML;
+
+
+/***/ }),
+
 /***/ 7637:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -44,12 +165,7 @@ const util = __importStar(__nccwpck_require__(3837));
 const core = __importStar(__nccwpck_require__(2186));
 const glob = __importStar(__nccwpck_require__(8252));
 const test_parser_1 = __nccwpck_require__(2393);
-const dashboardUrl = 'https://svg.test-summary.com/dashboard.svg';
-const passIconUrl = 'https://svg.test-summary.com/icon/pass.svg?s=12';
-const failIconUrl = 'https://svg.test-summary.com/icon/fail.svg?s=12';
-const skipIconUrl = 'https://svg.test-summary.com/icon/skip.svg?s=12';
-const noneIconUrl = 'https://svg.test-summary.com/icon/none.svg?s=12';
-const footer = `This test report was produced by the <a href="https://github.com/test-summary/action">test-summary action</a>.&nbsp; Made with ❤️ in Cambridge.`;
+const dashboard_1 = __nccwpck_require__(4770);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -123,9 +239,9 @@ function run() {
                 total.suites.push(...result.suites);
             }
             /* Create and write the output */
-            let output = dashboardSummary(total);
+            let output = (0, dashboard_1.dashboardSummary)(total);
             if (show) {
-                output += dashboardResults(total, show);
+                output += (0, dashboard_1.dashboardResults)(total, show);
             }
             if (outputFile === "-") {
                 console.log(output);
@@ -151,73 +267,6 @@ function run() {
             }
         }
     });
-}
-function dashboardSummary(result) {
-    const count = result.counts;
-    let summary = "";
-    if (count.passed > 0) {
-        summary += `${count.passed} passed`;
-    }
-    if (count.failed > 0) {
-        summary += `${summary ? ', ' : ''}${count.failed} failed`;
-    }
-    if (count.skipped > 0) {
-        summary += `${summary ? ', ' : ''}${count.skipped} skipped`;
-    }
-    return `<img src="${dashboardUrl}?p=${count.passed}&f=${count.failed}&s=${count.skipped}" alt="${summary}">`;
-}
-function dashboardResults(result, show) {
-    let table = "<table>";
-    let count = 0;
-    let title;
-    if (show == test_parser_1.TestStatus.Fail) {
-        title = "Test failures";
-    }
-    else if (show === test_parser_1.TestStatus.Skip) {
-        title = "Skipped tests";
-    }
-    else if (show === test_parser_1.TestStatus.Pass) {
-        title = "Passing tests";
-    }
-    else {
-        title = "Test results";
-    }
-    table += `<tr><th align="left">${title}:</th></tr>`;
-    for (const suite of result.suites) {
-        for (const testcase of suite.cases) {
-            if (show != 0 && (show & testcase.status) == 0) {
-                continue;
-            }
-            table += "<tr><td>";
-            if (testcase.status == test_parser_1.TestStatus.Pass) {
-                table += `<img src="${passIconUrl}" alt="">&nbsp; `;
-            }
-            else if (testcase.status == test_parser_1.TestStatus.Fail) {
-                table += `<img src="${failIconUrl}" alt="">&nbsp; `;
-            }
-            else if (testcase.status == test_parser_1.TestStatus.Skip) {
-                table += `<img src="${skipIconUrl}" alt="">&nbsp; `;
-            }
-            table += testcase.name;
-            if (testcase.description) {
-                table += ": ";
-                table += testcase.description;
-            }
-            if (testcase.details) {
-                table += "<br/><pre><code>";
-                table += testcase.details;
-                table += "</code></pre>";
-            }
-            table += "</td></tr>\n";
-            count++;
-        }
-    }
-    table += `<tr><td><sub>${footer}</sub></td></tr>`;
-    table += "</table>";
-    if (count == 0) {
-        return "";
-    }
-    return table;
 }
 run();
 
