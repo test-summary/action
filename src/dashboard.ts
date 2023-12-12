@@ -56,7 +56,8 @@ export function dashboardResults(result: TestResult, show: number): string {
             }
 
             if (testcase.details) {
-                table += "<br/><pre><code>"
+                table += "<br/>\n"
+                table += "<pre><code>"
                 table += escapeHTML(testcase.details)
                 table += "</code></pre>"
             }
