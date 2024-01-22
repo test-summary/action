@@ -80,7 +80,29 @@ describe("junit", async () => {
         expect(result.suites[0].cases[1].name).to.eql("passesTestTwo")
         expect(result.suites[0].cases[2].name).to.eql("passesTestThree")
         expect(result.suites[0].cases[3].name).to.eql("passesTestFour")
-        expect(result.suites[0].cases[4].name).to.eql("failsTestFive")
+
+        const case_with_message = result.suites[0].cases[4]
+
+        expect(case_with_message.name).to.eql("failsTestFive")
+        expect(case_with_message.message).to.be.a("string")
+        expect(case_with_message.details).to.be.a("string")
+
+        const message = "expected:<42> but was:<43>"
+
+        expect(case_with_message.message).to.eql(message)
+
+        const details = `junit.framework.AssertionFailedError: expected:<42> but was:<43>
+\tat test.failsTestFive(Unknown Source)
+\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+`
+
+        expect(case_with_message.details).to.eql(details)
+
         expect(result.suites[0].cases[5].name).to.eql("failsTestSix")
         expect(result.suites[0].cases[6].name).to.eql("failsTestSeven")
         expect(result.suites[0].cases[7].name).to.eql("failsTestEight")
