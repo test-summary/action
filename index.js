@@ -55,11 +55,18 @@ function dashboardResults(result, show) {
                 table += ": ";
                 table += (0, escape_html_1.default)(testcase.description);
             }
-            if (testcase.details) {
+            if (testcase.message || testcase.details) {
                 table += "<br/>\n";
-                table += "<pre><code>";
-                table += (0, escape_html_1.default)(testcase.details);
-                table += "</code></pre>";
+                if (testcase.message) {
+                    table += "<pre><code>";
+                    table += (0, escape_html_1.default)(testcase.message);
+                    table += "</code></pre>";
+                }
+                if (testcase.details) {
+                    table += "<pre><code>";
+                    table += (0, escape_html_1.default)(testcase.details);
+                    table += "</code></pre>";
+                }
             }
             table += "</td></tr>\n";
             count++;
@@ -497,14 +504,18 @@ function parseJunitXml(xml) {
                 const classname = testcase.$.classname;
                 const name = testcase.$.name;
                 const duration = testcase.$.time;
+                let failure_or_error;
+                let message = undefined;
                 let details = undefined;
                 if (testcase.skipped) {
                     status = TestStatus.Skip;
                     counts.skipped++;
                 }
-                else if (testcase.failure || testcase.error) {
+                else if (failure_or_error = testcase.failure || testcase.error) {
                     status = TestStatus.Fail;
-                    details = (testcase.failure || testcase.error)[0]._;
+                    const element = failure_or_error[0];
+                    message = element.$.message;
+                    details = element._;
                     counts.failed++;
                 }
                 else {
@@ -514,6 +525,7 @@ function parseJunitXml(xml) {
                     status: status,
                     name: name,
                     description: classname,
+                    message: message,
                     details: details,
                     duration: duration
                 });
