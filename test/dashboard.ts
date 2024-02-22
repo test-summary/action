@@ -54,4 +54,27 @@ describe("dashboard", async () => {
         const actual = dashboardResults(result, TestStatus.Fail)
         expect(actual).contains("&lt;no name&gt;")
     })
+
+    it("includes details and message when present, using proper escaping", async () => {
+        const result: TestResult = {
+            counts: { passed: 0, failed: 1, skipped: 0 },
+            suites: [
+                {
+                    cases: [
+                        {
+                            status: TestStatus.Fail,
+                            name: "Test",
+                            message: "message escaped <properly>",
+                            details: "details escaped <properly>"
+                        }
+                    ]
+                }
+            ]
+        }
+
+        const actual = dashboardResults(result, TestStatus.Fail)
+
+        expect(actual).contains("message escaped &lt;properly&gt;")
+        expect(actual).contains("details escaped &lt;properly&gt;")
+    })
 })

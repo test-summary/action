@@ -34,6 +34,7 @@ export interface TestCase {
     status: TestStatus
     name?: string
     description?: string
+    message?: string
     details?: string
     duration?: string
 }
@@ -235,15 +236,21 @@ async function parseJunitXml(xml: any): Promise<TestResult> {
             const name = testcase.$.name
             const duration = testcase.$.time
 
+            let failure_or_error
+            let message: string | undefined = undefined
             let details: string | undefined = undefined
 
             if (testcase.skipped) {
                 status = TestStatus.Skip
 
                 counts.skipped++
-            } else if (testcase.failure || testcase.error) {
+            } else if (failure_or_error = testcase.failure || testcase.error) {
                 status = TestStatus.Fail
-                details = (testcase.failure || testcase.error)[0]._
+
+                const element = failure_or_error[0]
+
+                message = element.$.message
+                details = element._
 
                 counts.failed++
             } else {
@@ -254,6 +261,7 @@ async function parseJunitXml(xml: any): Promise<TestResult> {
                 status: status,
                 name: name,
                 description: classname,
+                message: message,
                 details: details,
                 duration: duration
             })

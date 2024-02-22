@@ -55,11 +55,20 @@ export function dashboardResults(result: TestResult, show: number): string {
                 table += escapeHTML(testcase.description)
             }
 
-            if (testcase.details) {
+            if (testcase.message || testcase.details) {
                 table += "<br/>\n"
-                table += "<pre><code>"
-                table += escapeHTML(testcase.details)
-                table += "</code></pre>"
+
+                if (testcase.message) {
+                    table += "<pre><code>"
+                    table += escapeHTML(testcase.message)
+                    table += "</code></pre>"
+                }
+
+                if (testcase.details) {
+                    table += "<pre><code>"
+                    table += escapeHTML(testcase.details)
+                    table += "</code></pre>"
+                }
             }
 
             table += "</td></tr>\n"
