@@ -70,7 +70,7 @@ jobs:
         id: status
         run: |
           if [ -n "$(git status --porcelain)" ]; then
-            echo "::set-output name=has_changes::1"
+            echo "has_changes=1" >> $GITHUB_OUTPUT
           fi
         working-directory: dist
       - name: Publish action
