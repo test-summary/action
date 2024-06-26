@@ -146,4 +146,8 @@ describe("junit", async () => {
         expect(result.counts.skipped).to.eql(0)
         expect(result.suites.length).to.eql(0)
     })
+
+    it("parses testsuite with no failure message", async () => {
+        const result = await parseJunitFile(`${resourcePath}/07-no-failure-message.xml`)
+    })
 })

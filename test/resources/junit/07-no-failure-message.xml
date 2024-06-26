@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite errors="0" failures="4" hostname="hypnotoad" name="test" skipped="2" tests="10" time="0.033" timestamp="2022-03-23T23:30:24">
+  <properties>
+    <property name="ant.project.invoked-targets" value="test" />
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment" />
+    <property name="java.vm.version" value="17.0.1+12-LTS" />
+    <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/microsoft-17.jdk/Contents/Home/lib" />
+    <property name="ant.library.dir" value="/usr/local/share/apache-ant-1.9.16/lib" />
+    <property name="ant.version" value="Apache Ant(TM) version 1.9.16 compiled on July 10 2021" />
+    <property name="ant.java.version" value="17" />
+    <property name="java.vm.vendor" value="Microsoft" />
+    <property name="java.vendor.url" value="https://www.microsoft.com" />
+    <property name="path.separator" value=":" />
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM" />
+    <property name="user.country" value="US" />
+    <property name="sun.java.launcher" value="SUN_STANDARD" />
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification" />
+    <property name="user.dir" value="/Users/ethomson/Projects/test-summary/examples/java-junit" />
+    <property name="java.vm.compressedOopsMode" value="Zero based" />
+    <property name="java.runtime.version" value="17.0.1+12-LTS" />
+    <property name="basedir" value="/Users/ethomson/Projects/test-summary/examples/java-junit" />
+    <property name="os.arch" value="x86_64" />
+    <property name="ant.project.default-target" value="test" />
+    <property name="java.io.tmpdir" value="/var/folders/7b/lthkg9qn6lbdqlbz092gnwmm0000gn/T/" />
+    <property name="ant.core.lib" value="/usr/local/share/apache-ant-1.9.16/lib/ant.jar" />
+    <property name="line.separator" value="&#xa;" />
+    <property name="ant.file.example" value="/Users/ethomson/Projects/test-summary/examples/java-junit/build.xml" />
+    <property name="java.vm.specification.vendor" value="Oracle Corporation" />
+    <property name="os.name" value="Mac OS X" />
+    <property name="ant.home" value="/usr/local/share/apache-ant-1.9.16" />
+    <property name="ant.project.name" value="example" />
+    <property name="sun.jnu.encoding" value="UTF-8" />
+    <property name="java.library.path" value="/Users/ethomson/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:." />
+    <property name="jdk.debug" value="release" />
+    <property name="java.class.version" value="61.0" />
+    <property name="java.specification.name" value="Java Platform API Specification" />
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers" />
+    <property name="os.version" value="12.1" />
+    <property name="ant.file" value="/Users/ethomson/Projects/test-summary/examples/java-junit/build.xml" />
+    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16" />
+    <property name="user.home" value="/Users/ethomson" />
+    <property name="file.encoding" value="UTF-8" />
+    <property name="java.specification.version" value="17" />
+    <property name="user.name" value="ethomson" />
+    <property name="java.class.path" value="/usr/local/share/apache-ant-1.9.16/lib/ant-launcher.jar:/usr/local/share/apache-ant-1.9.16/lib/ant-commons-net.jar:/usr/local/share/apache-ant-1.9.16/lib/ant-junit4.jar:/usr/local/share/apache-ant-1.9.16/lib/ant-jai.jar:/usr/local/share/apache-ant-1.9.16/lib/ant-apache-resolver.jar:/usr/local/share/apache-ant-1.9.16/lib/ant-jdepend.jar:/usr/local/share/apache-ant-1.9.16/lib/ant-apache-regexp.jar:/usr/local/share/apache-ant-1.9.16/lib/ant-apache-log4j.jar:/usr/local/share/apache-ant-1.9.16/lib/ant-javamail.jar:/usr/local/share/apache-ant-1.9.16/lib/ant-apache-bcel.jar:/usr/local/share/apache-ant-1.9.16/lib/ant.jar:/usr/local/share/apache-ant-1.9.16/lib/ant-netrexx.jar:/usr/local/share/apache-ant-1.9.16/lib/ant-swing.jar:/usr/local/share/apache-ant-1.9.16/lib/ant-jsch.jar:/usr/local/share/apache-ant-1.9.16/lib/ant-junit.jar:/usr/local/share/apache-ant-1.9.16/lib/ant-launcher.jar:/usr/local/share/apache-ant-1.9.16/lib/ant-antlr.jar:/usr/local/share/apache-ant-1.9.16/lib/ant-testutil.jar:/usr/local/share/apache-ant-1.9.16/lib/ant-apache-oro.jar:/usr/local/share/apache-ant-1.9.16/lib/ant-jmf.jar:/usr/local/share/apache-ant-1.9.16/lib/ant-apache-xalan2.jar:/usr/local/share/apache-ant-1.9.16/lib/ant-apache-bsf.jar:/usr/local/share/apache-ant-1.9.16/lib/ant-commons-logging.jar" />
+    <property name="java.vm.specification.version" value="17" />
+    <property name="sun.arch.data.model" value="64" />
+    <property name="sun.java.command" value="org.apache.tools.ant.launch.Launcher -cp " />
+    <property name="java.home" value="/Library/Java/JavaVirtualMachines/microsoft-17.jdk/Contents/Home" />
+    <property name="user.language" value="en" />
+    <property name="java.specification.vendor" value="Oracle Corporation" />
+    <property name="java.vm.info" value="mixed mode, sharing" />
+    <property name="java.version" value="17.0.1" />
+    <property name="native.encoding" value="UTF-8" />
+    <property name="java.vendor" value="Microsoft" />
+    <property name="sun.stderr.encoding" value="UTF-8" />
+    <property name="ant.file.type.example" value="file" />
+    <property name="file.separator" value="/" />
+    <property name="java.version.date" value="2021-10-19" />
+    <property name="java.vendor.url.bug" value="https://github.com/microsoft/openjdk/issues" />
+    <property name="sun.io.unicode.encoding" value="UnicodeBig" />
+    <property name="sun.cpu.endian" value="little" />
+    <property name="java.vendor.version" value="Microsoft-28056" />
+    <property name="sun.stdout.encoding" value="UTF-8" />
+    <property name="ant.file.type" value="file" />
+    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16" />
+    <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16" />
+  </properties>
+  <testcase classname="test" name="passesTestOne" time="0.0" />
+  <testcase classname="test" name="passesTestTwo" time="0.0" />
+  <testcase classname="test" name="passesTestThree" time="0.0" />
+  <testcase classname="test" name="passesTestFour" time="0.0" />
+  <testcase classname="test" name="failsTestFive" time="0.002">
+    <failure>junit.framework.AssertionFailedError: expected:&lt;42&gt; but was:&lt;43&gt;
+	at test.failsTestFive(Unknown Source)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+</failure>
+  </testcase>
+  <testcase classname="test" name="failsTestSix" time="0.005">
+    <failure type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: expected:&lt;99&gt; but was:&lt;98&gt;
+	at test.failsTestSix(Unknown Source)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+</failure>
+  </testcase>
+  <testcase classname="test" name="failsTestSeven" time="0.001">
+    <failure type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: expected:&lt;[hello]&gt; but was:&lt;[world]&gt;
+	at test.failsTestSeven(Unknown Source)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+</failure>
+  </testcase>
+  <testcase classname="test" name="failsTestEight" time="0.002">
+    <failure>junit.framework.AssertionFailedError: expected:&lt;[world]&gt; but was:&lt;[hello]&gt;
+	at test.failsTestEight(Unknown Source)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+</failure>
+  </testcase>
+  <testcase classname="test" name="skipsTestNine" time="0.0">
+    <skipped />
+  </testcase>
+  <testcase classname="test" name="skipsTestTen" time="0.0">
+    <skipped />
+  </testcase>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
