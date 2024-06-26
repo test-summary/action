@@ -514,7 +514,7 @@ function parseJunitXml(xml) {
                 else if (failure_or_error = testcase.failure || testcase.error) {
                     status = TestStatus.Fail;
                     const element = failure_or_error[0];
-                    message = element.$.message;
+                    message = element.$ ? element.$.message : undefined;
                     details = element._;
                     counts.failed++;
                 }
