@@ -55,4 +55,11 @@ describe("file", async () => {
         expect(result.counts.failed).to.eql(4)
         expect(result.counts.skipped).to.eql(2)
     })
+
+    it("identifies empty junit", async () => {
+        const result = await parseFile(`${junitResourcePath}/05-empty.xml`)
+        expect(result.counts.passed).to.eql(0)
+        expect(result.counts.failed).to.eql(0)
+        expect(result.counts.skipped).to.eql(0)
+    })
 })
