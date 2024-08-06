@@ -11,6 +11,7 @@ async function run(): Promise<void> {
         const pathGlobs = core.getInput("paths", { required: true })
         const outputFile = core.getInput("output") || process.env.GITHUB_STEP_SUMMARY || "-"
         const showList = core.getInput("show")
+	const folded = JSON.parse(core.getInput("folded") || "false")
 
         /*
          * Given paths may either be an individual path (eg "foo.xml"),
@@ -99,7 +100,7 @@ async function run(): Promise<void> {
         let output = dashboardSummary(total)
 
         if (show) {
-            output += dashboardResults(total, show)
+            output += dashboardResults(total, show, folded)
         }
 
         if (outputFile === "-") {

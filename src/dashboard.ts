@@ -28,7 +28,7 @@ export function dashboardSummary(result: TestResult): string {
     return `<img src="${dashboardUrl}?p=${count.passed}&f=${count.failed}&s=${count.skipped}" alt="${summary}">`
 }
 
-export function dashboardResults(result: TestResult, show: number): string {
+export function dashboardResults(result: TestResult, show: number, folded: boolean): string {
     let table = "<table>"
     let count = 0
 
@@ -41,6 +41,9 @@ export function dashboardResults(result: TestResult, show: number): string {
             }
 
             table += "<tr><td>"
+            if (folded) {
+                table += "<details><summary>"
+            }
 
             const icon = statusIcon(testcase.status)
             if (icon) {
@@ -53,6 +56,10 @@ export function dashboardResults(result: TestResult, show: number): string {
             if (testcase.description) {
                 table += ": "
                 table += escapeHTML(testcase.description)
+            }
+
+            if (folded) {
+                table += "</summary>"
             }
 
             if (testcase.message || testcase.details) {
@@ -69,6 +76,10 @@ export function dashboardResults(result: TestResult, show: number): string {
                     table += escapeHTML(testcase.details)
                     table += "</code></pre>"
                 }
+            }
+
+            if (folded) {
+                table += "</details>"
             }
 
             table += "</td></tr>\n"
