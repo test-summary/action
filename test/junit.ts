@@ -150,4 +150,12 @@ describe("junit", async () => {
     it("parses testsuite with no failure message", async () => {
         const result = await parseJunitFile(`${resourcePath}/07-no-failure-message.xml`)
     })
+
+    it("parses attributeless failure tags", async () => {
+        // https://github.com/jest-community/jest-junit generates failure tags
+        // that have no attributes, only inner text.
+        // Example: <failure>Failed!</failure>
+        const result = await parseJunitFile(`${resourcePath}/08-failure-noattr-only-innertext.xml`)
+        expect(result.suites[0].cases[0].details).to.eql("Failed!")
+    })
 })
