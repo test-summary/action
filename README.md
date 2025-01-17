@@ -146,6 +146,16 @@ Options are specified on the [`with` map](https://docs.github.com/en/actions/usi
       show: "fail, skip"
   ```
 
+* **`folded`: display test details in a folded details block** (optional)
+  When enabled the details for each test result will be nested in a details blocks which can be expanded by clicking on the test name. This option can be `true` or `false` (The default).
+
+  ```yaml
+  - uses: test-summary/action@v2
+    with:
+      paths: "test/results/**/TEST-*.xml"
+      folded: true
+  ```
+
 FAQ
 ---
 * **How is the summary graphic generated? Does any of my data ever leave GitHub?**  

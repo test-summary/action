@@ -9,6 +9,8 @@ inputs:
     description: File to write with rendered output
   show:
     description: Types of tests to show in the results table
+  folded:
+    description: Show each result in a folded details block
 runs:
   using: 'node20'
   main: 'index.js'
