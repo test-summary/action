@@ -316,7 +316,7 @@ export async function parseFile(filename: string): Promise<TestResult> {
 
     const xml: any = await parser(data)
 
-    if (xml.testsuites || xml.testsuite) {
+    if ('testsuites' in xml || 'testsuite' in xml) {
         return await parseJunitXml(xml)
     }
 
