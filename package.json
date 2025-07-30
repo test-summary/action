@@ -39,7 +39,7 @@
     "@types/chai-as-promised": "^7.1.5",
     "@types/mocha": "^10.0.1",
     "@types/node": "^18.11.18",
-    "@types/xml2js": "^0.4.11",
+    "@types/xml2js": "^0.4.14",
     "@vercel/ncc": "^0.36.0",
     "chai": "^4.3.7",
     "chai-as-promised": "^7.1.1",

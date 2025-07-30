@@ -28,19 +28,36 @@ export function dashboardSummary(result: TestResult): string {
     return `<img src="${dashboardUrl}?p=${count.passed}&f=${count.failed}&s=${count.skipped}" alt="${summary}">`
 }
 
-export function dashboardResults(result: TestResult, show: number): string {
-    let table = "<table>"
+export function dashboardResults(result: TestResult, show: number, flakyTestsTitles: boolean = false ): string {
+    let results = `<h3>${statusTitle(show)}:</h3>`
     let count = 0
 
-    table += `<tr><th align="left">${statusTitle(show)}:</th></tr>`
-
     for (const suite of result.suites) {
+        let table = "<table>"
+        if (suite.name) {
+        table += `<tr><th align="left">Test Suite: ${escapeHTML(suite.name)}</th></tr>`
+        }
+
+        let hasShownNonFlakyTitle = flakyTestsTitles ? true : false;
+        let hasShownFlakyTitle = flakyTestsTitles ? true : false;
+
         for (const testcase of suite.cases) {
             if (show !== 0 && (show & testcase.status) === 0) {
                 continue
             }
 
-            table += "<tr><td>"
+            if (!testcase.flaky && !hasShownNonFlakyTitle) {
+                table += `<tr><td><ul><li><b>Non-flaky tests:</b></li></ul></td></tr>`;
+                hasShownNonFlakyTitle = true;
+            }
+
+            if (testcase.flaky && !hasShownFlakyTitle) {
+                table += `<tr><td><ul><li><b>Flaky tests:</b></li></ul></td></tr>`;
+                hasShownFlakyTitle = true;
+            }
+
+            table += "<tr><td><ul>"
+
 
             const icon = statusIcon(testcase.status)
             if (icon) {
@@ -65,9 +82,9 @@ export function dashboardResults(result: TestResult, show: number): string {
                 }
 
                 if (testcase.details) {
-                    table += "<pre><code>"
+                    table += "<details><pre><code>"
                     table += escapeHTML(testcase.details)
-                    table += "</code></pre>"
+                    table += "</code></pre></details>"
                 }
             }
 
@@ -75,16 +92,18 @@ export function dashboardResults(result: TestResult, show: number): string {
 
             count++
         }
+      table += "</table>"
+      results += table
+
     }
 
-    table += `<tr><td><sub>${footer}</sub></td></tr>`
-    table += "</table>"
+    results += `<tr><td><sub>${footer}</sub></td></tr>`
 
     if (count === 0) {
         return ""
     }
 
-    return table
+    return results
 }
 
 function statusTitle(status: TestStatus): string {

@@ -5,12 +5,14 @@ import * as glob from "glob-promise"
 
 import { TestResult, TestStatus, parseFile } from "./test_parser"
 import { dashboardResults, dashboardSummary } from "./dashboard"
+import { markFlakyTests } from "./flaky_tests"
 
 async function run(): Promise<void> {
     try {
         const pathGlobs = core.getInput("paths", { required: true })
         const outputFile = core.getInput("output") || process.env.GITHUB_STEP_SUMMARY || "-"
         const showList = core.getInput("show")
+        const flakyTestsJsonPath = core.getInput("flaky-tests-json") || ""
 
         /*
          * Given paths may either be an individual path (eg "foo.xml"),
@@ -78,7 +80,7 @@ async function run(): Promise<void> {
 
         /* Analyze the tests */
 
-        const total: TestResult = {
+        let total: TestResult = {
             counts: { passed: 0, failed: 0, skipped: 0 },
             suites: [ ],
             exception: undefined
@@ -95,11 +97,14 @@ async function run(): Promise<void> {
         }
 
         /* Create and write the output */
+        if (flakyTestsJsonPath) {
+            total = markFlakyTests(total, flakyTestsJsonPath)
+        }
 
         let output = dashboardSummary(total)
 
         if (show) {
-            output += dashboardResults(total, show)
+            output += dashboardResults(total, show, flakyTestsJsonPath != "")
         }
 
         if (outputFile === "-") {

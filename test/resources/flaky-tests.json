@@ -1,0 +1,24 @@
+[
+  {
+  "id": 1,
+  "name": "passesTestOne",
+  "class": "test",
+  "testsuite": "test",
+  "repository": "go-sdk-android",
+  "error": "Multiple error messages have been encountered for this test",
+  "test_id": 1,
+  "end_date": null,
+  "end_reason": null
+  },
+  {
+    "id": 2,
+    "name": "failsTestFive",
+    "class": "test",
+    "testsuite": "test",
+    "repository": "go-sdk-android",
+    "error": "Multiple error messages have been encountered for this test",
+    "test_id": 2,
+    "end_date": null,
+    "end_reason": null
+  }
+]

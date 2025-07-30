@@ -2,6 +2,7 @@ import * as chai from "chai"
 import { expect } from "chai"
 
 import { TestStatus, parseJunitFile } from "../src/test_parser"
+import { markFlakyTests } from "../src/flaky_tests"
 
 const resourcePath = `${__dirname}/resources/junit`
 
@@ -157,5 +158,23 @@ describe("junit", async () => {
         // Example: <failure>Failed!</failure>
         const result = await parseJunitFile(`${resourcePath}/08-failure-noattr-only-innertext.xml`)
         expect(result.suites[0].cases[0].details).to.eql("Failed!")
+    })
+
+    it("identifies flaky tests", async () => {
+        const result = await parseJunitFile(`${resourcePath}/03-junit.xml`)
+        const resultUpdated = markFlakyTests(result, `${__dirname}/resources/flaky-tests.json`)
+
+        expect(resultUpdated.suites[0].cases[0].flaky).to.eql(false)
+        expect(resultUpdated.suites[0].cases[1].flaky).to.eql(false)
+        expect(resultUpdated.suites[0].cases[2].flaky).to.eql(false)
+        expect(resultUpdated.suites[0].cases[3].flaky).to.eql(false)
+        expect(resultUpdated.suites[0].cases[4].flaky).to.eql(false)
+        expect(resultUpdated.suites[0].cases[5].flaky).to.eql(false)
+        expect(resultUpdated.suites[0].cases[6].flaky).to.eql(false)
+        expect(resultUpdated.suites[0].cases[7].flaky).to.eql(false)
+        expect(resultUpdated.suites[0].cases[8].flaky).to.eql(true)
+        expect(resultUpdated.suites[0].cases[9].flaky).to.eql(true)
+
+        
     })
 })

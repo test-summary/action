@@ -9,6 +9,12 @@ inputs:
     description: File to write with rendered output
   show:
     description: Types of tests to show in the results table
+  flaky-tests-json:
+    description: Path to the JSON file with flaky test information to flag them in the summary
+    required: false
+  rerun-suffix:
+    description: Suffix appended to paths of rerun tests. 
+    required: false
 runs:
   using: 'node20'
   main: 'index.js'

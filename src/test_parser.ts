@@ -37,6 +37,7 @@ export interface TestCase {
     message?: string
     details?: string
     duration?: string
+    flaky: boolean
 }
 
 export async function parseTap(data: string): Promise<TestResult> {
@@ -78,6 +79,7 @@ export async function parseTap(data: string): Promise<TestResult> {
         let name: string | undefined = undefined
         let description: string | undefined = undefined
         let details: string | undefined = undefined
+        let flaky = false
 
         if (found = line.match(/^\s*#(.*)/)) {
             if (!found[1]) {
@@ -183,7 +185,8 @@ export async function parseTap(data: string): Promise<TestResult> {
             status: status,
             name: name,
             description: description,
-            details: details
+            details: details,
+            flaky: flaky
         })
     }
 
@@ -267,7 +270,8 @@ async function parseJunitXml(xml: any): Promise<TestResult> {
                 description: classname,
                 message: message,
                 details: details,
-                duration: duration
+                duration: duration,
+                flaky: false // Flaky tests will be marked later
             })
         }
 
@@ -275,7 +279,7 @@ async function parseJunitXml(xml: any): Promise<TestResult> {
             name: testsuite.$.name,
             timestamp: testsuite.$.timestamp,
             filename: testsuite.$.file,
-            cases: cases
+            cases: cases,
         })
     }
 
