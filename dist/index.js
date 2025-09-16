@@ -21,7 +21,7 @@ const flakyIconUrl = "https://github.com/tomtom-forks/test-summary-action/raw/ic
 // not used: const noneIconUrl = '"https://github.com/tomtom-forks/test-summary-action/raw/icons/assets/none.svg'
 const unnamedTestCase = "<no name>";
 const footer = `This test report was produced by the <a href="https://github.com/test-summary/action">test-summary action</a>.&nbsp; Made with ❤️ in Cambridge.`;
-function dashboardSummary(result, show, summaryTitleInput, runUrl) {
+function dashboardSummary(result, show, summaryTitleInput, runUrl, maxLength) {
     const count = result.counts;
     let summary = "";
     if (count.passed > 0) {
@@ -37,10 +37,14 @@ function dashboardSummary(result, show, summaryTitleInput, runUrl) {
     const summaryTitleHtml = runUrl
         ? `<h2><a href="${runUrl}" target="_blank">${summaryTitle}</a></h2>`
         : `<h2>${summaryTitle}</h2>`;
-    return `${summaryTitleHtml}<img src="${dashboardUrl}?p=${count.passed}&f=${count.failed}&s=${count.skipped}" alt="${summary}">`;
+    const finalSummary = `${summaryTitleHtml}<img src="${dashboardUrl}?p=${count.passed}&f=${count.failed}&s=${count.skipped}" alt="${summary}">`;
+    if (maxLength && finalSummary.length > maxLength) {
+        throw new Error("Summary length exceeds maximum length, this part cannot be truncated. Please consider increasing max-summary-length input");
+    }
+    return finalSummary;
 }
 exports.dashboardSummary = dashboardSummary;
-function dashboardResults(result, show, flakyTestsInfo = false) {
+function dashboardResults(result, show, flakyTestsInfo = false, maxLength = undefined, currentLength = 0) {
     let results = ``;
     let count = 0;
     for (const suite of result.suites) {
@@ -110,6 +114,30 @@ function dashboardResults(result, show, flakyTestsInfo = false) {
         return `<h3>No test results to display.</h3>
       If the pipeline failed but no test runs indicate failures, it might be due to a 
       <strong>build failure</strong> or a <strong>timeout</strong>. Check the logs for more information.`;
+    }
+    const summaryTruncatedNote = `<p><b>⚠️ Results truncated due to length constraints.</b></p>`;
+    if (maxLength && currentLength + results.length > maxLength) {
+        let resultsTruncated = results.replace(/<details>[\s\S]*?<\/details>/g, "");
+        if (resultsTruncated.length + currentLength <= maxLength) {
+            return resultsTruncated;
+        }
+        // Iteratively remove the last <tr><td>...</td></tr>
+        while (currentLength +
+            resultsTruncated.length +
+            summaryTruncatedNote.length >
+            maxLength) {
+            const lastRowMatch = resultsTruncated.match(/<tr><td>[\s\S]*?<\/td><\/tr>/g);
+            if (lastRowMatch && lastRowMatch.length > 0) {
+                // Remove the last match
+                resultsTruncated = resultsTruncated
+                    .replace(lastRowMatch[lastRowMatch.length - 1], "")
+                    .replace(/<table>\s*(<tr>\s*<th[^>]*>[^<]*<\/th>\s*<\/tr>\s*)?<\/table>/g, ""); // Remove empty tables
+            }
+            else {
+                break;
+            }
+        }
+        return (resultsTruncated += summaryTruncatedNote);
     }
     return results;
 }
@@ -358,6 +386,7 @@ function run() {
             const summaryTitle = core.getInput("summary-title") || "";
             const flakyTestsJsonPath = core.getInput("flaky-tests-json") || "";
             const runUrl = core.getInput("run-url") || "";
+            const maxSummaryLength = parseInt(core.getInput("max-summary-length")) || undefined;
             /*
              * Given paths may either be an individual path (eg "foo.xml"),
              * a path glob (eg "**TEST-*.xml"), or may be newline separated
@@ -418,9 +447,10 @@ function run() {
             if (flakyTestsJsonPath) {
                 total = (0, flaky_tests_1.markFlakyTests)(total, flakyTestsJsonPath);
             }
-            let output = (0, dashboard_1.dashboardSummary)(total, show, summaryTitle, runUrl);
+            let output = (0, dashboard_1.dashboardSummary)(total, show, summaryTitle, runUrl, maxSummaryLength);
+            const current_length = output.length;
             if (show) {
-                output += (0, dashboard_1.dashboardResults)(total, show, flakyTestsJsonPath !== "");
+                output += (0, dashboard_1.dashboardResults)(total, show, flakyTestsJsonPath !== "", maxSummaryLength, current_length);
             }
             if (outputFile === "-") {
                 core.info(output);

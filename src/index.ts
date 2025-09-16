@@ -115,6 +115,8 @@ async function run(): Promise<void> {
         const summaryTitle = core.getInput("summary-title") || ""
         const flakyTestsJsonPath = core.getInput("flaky-tests-json") || ""
         const runUrl = core.getInput("run-url") || ""
+        const maxSummaryLength =
+            parseInt(core.getInput("max-summary-length")) || undefined
 
         /*
          * Given paths may either be an individual path (eg "foo.xml"),
@@ -196,10 +198,23 @@ async function run(): Promise<void> {
             total = markFlakyTests(total, flakyTestsJsonPath)
         }
 
-        let output = dashboardSummary(total, show, summaryTitle, runUrl)
+        let output = dashboardSummary(
+            total,
+            show,
+            summaryTitle,
+            runUrl,
+            maxSummaryLength
+        )
+        const current_length = output.length
 
         if (show) {
-            output += dashboardResults(total, show, flakyTestsJsonPath !== "")
+            output += dashboardResults(
+                total,
+                show,
+                flakyTestsJsonPath !== "",
+                maxSummaryLength,
+                current_length
+            )
         }
 
         if (outputFile === "-") {

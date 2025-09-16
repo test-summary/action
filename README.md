@@ -176,6 +176,8 @@ Options are specified on the [`with` map](https://docs.github.com/en/actions/usi
 * **`run-url`: URL to the workflow run where the tests were executed** (optional)
   It will be linked to the title of the produced test summary.
 
+* **`max-summary-length`: Maximum length (in characters) allowed for the generated summary.** (optional)
+  If exceeded, the summary will be truncated. Details sections will be removed first, and if the length is still greater than the limit, tests will be removed iteratively from the end until the summary meets the specified maximum length.
 
 FAQ
 ---

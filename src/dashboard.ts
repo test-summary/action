@@ -20,7 +20,8 @@ export function dashboardSummary(
     result: TestResult,
     show: number,
     summaryTitleInput: string,
-    runUrl: string
+    runUrl: string,
+    maxLength: number | undefined
 ): string {
     const count = result.counts
     let summary = ""
@@ -41,13 +42,23 @@ export function dashboardSummary(
         ? `<h2><a href="${runUrl}" target="_blank">${summaryTitle}</a></h2>`
         : `<h2>${summaryTitle}</h2>`
 
-    return `${summaryTitleHtml}<img src="${dashboardUrl}?p=${count.passed}&f=${count.failed}&s=${count.skipped}" alt="${summary}">`
+    const finalSummary = `${summaryTitleHtml}<img src="${dashboardUrl}?p=${count.passed}&f=${count.failed}&s=${count.skipped}" alt="${summary}">`
+
+    if (maxLength && finalSummary.length > maxLength) {
+        throw new Error(
+            "Summary length exceeds maximum length, this part cannot be truncated. Please consider increasing max-summary-length input"
+        )
+    }
+
+    return finalSummary
 }
 
 export function dashboardResults(
     result: TestResult,
     show: number,
-    flakyTestsInfo = false
+    flakyTestsInfo = false,
+    maxLength: number | undefined = undefined,
+    currentLength = 0
 ): string {
     let results = ``
     let count = 0
@@ -139,6 +150,43 @@ export function dashboardResults(
         return `<h3>No test results to display.</h3>
       If the pipeline failed but no test runs indicate failures, it might be due to a 
       <strong>build failure</strong> or a <strong>timeout</strong>. Check the logs for more information.`
+    }
+
+    const summaryTruncatedNote = `<p><b>⚠️ Results truncated due to length constraints.</b></p>`
+
+    if (maxLength && currentLength + results.length > maxLength) {
+        let resultsTruncated = results.replace(
+            /<details>[\s\S]*?<\/details>/g,
+            ""
+        )
+        if (resultsTruncated.length + currentLength <= maxLength) {
+            return resultsTruncated
+        }
+
+        // Iteratively remove the last <tr><td>...</td></tr>
+        while (
+            currentLength +
+                resultsTruncated.length +
+                summaryTruncatedNote.length >
+            maxLength
+        ) {
+            const lastRowMatch = resultsTruncated.match(
+                /<tr><td>[\s\S]*?<\/td><\/tr>/g
+            )
+            if (lastRowMatch && lastRowMatch.length > 0) {
+                // Remove the last match
+                resultsTruncated = resultsTruncated
+                    .replace(lastRowMatch[lastRowMatch.length - 1], "")
+                    .replace(
+                        /<table>\s*(<tr>\s*<th[^>]*>[^<]*<\/th>\s*<\/tr>\s*)?<\/table>/g,
+                        ""
+                    ) // Remove empty tables
+            } else {
+                break
+            }
+        }
+
+        return (resultsTruncated += summaryTruncatedNote)
     }
 
     return results

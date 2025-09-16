@@ -20,6 +20,10 @@ inputs:
   flaky-tests-json:
     description: Path to the JSON file with flaky test information to flag them in the summary.
     required: false
+  max-summary-length:
+    description: Maximum length of the summary section. Longer summaries will have the details section removed if necessary or be truncated if still too long.
+    default: 65534
+    required: false
 
 runs:
   using: 'node20'
