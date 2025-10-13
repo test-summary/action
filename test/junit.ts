@@ -96,7 +96,7 @@ describe("junit", async () => {
         const result = await parseJunitFile(`${resourcePath}/03-junit.xml`)
 
         expect(result.counts.passed).to.eql(4)
-        expect(result.counts.failed).to.eql(4)
+        expect(result.counts.failed).to.eql(5)
         expect(result.counts.skipped).to.eql(2)
 
         expect(result.suites.length).to.eql(1)
@@ -210,13 +210,19 @@ describe("junit", async () => {
         expect(resultUpdated.suites[0].cases[5].flaky).to.eql(false)
         expect(resultUpdated.suites[0].cases[6].flaky).to.eql(false)
         expect(resultUpdated.suites[0].cases[7].flaky).to.eql(false)
-        expect(resultUpdated.suites[0].cases[8].flaky).to.eql(true)
-        expect(resultUpdated.suites[0].cases[8].flakyTestTicket).to.eql(
-            "https://jira.example.com/browse/TEST-1"
-        )
+        expect(resultUpdated.suites[0].cases[8].flaky).to.eql(false)
         expect(resultUpdated.suites[0].cases[9].flaky).to.eql(true)
         expect(resultUpdated.suites[0].cases[9].flakyTestTicket).to.eql(
+            "https://jira.example.com/browse/TEST-1"
+        )
+        expect(resultUpdated.suites[0].cases[10].flaky).to.eql(true)
+        expect(resultUpdated.suites[0].cases[10].flakyTestTicket).to.eql(
             undefined
         )
+    })
+    it("identifies system error tests", async () => {
+        const result = await parseJunitFile(`${resourcePath}/03-junit.xml`)
+        expect(result.suites[0].cases[9].system_error).to.eql(false)
+        expect(result.suites[0].cases[10].system_error).to.eql(true)
     })
 })

@@ -141,10 +141,11 @@ describe("dashboard", async () => {
         let actual = dashboardResults(result, TestStatus.Fail, true)
         const count = (actual.match(/\[FLAKY\]/g) || []).length
         expect(actual).contains(
-            `<a href="https://jira.example.com/browse/TEST-1" target="_blank">[FLAKY] </a> `
+            `<a href="https://jira.example.com/browse/TEST-1" target="_blank">[FLAKY]</a> `
         )
         expect(count).to.equal(2) // Once comes from the footer
     })
+
     it("removes details sections to adjust to maxLength", async () => {
         const result: TestResult = {
             counts: { passed: 0, failed: 1, skipped: 0 },
@@ -295,4 +296,60 @@ describe("dashboard", async () => {
         expect(count).to.equal(1) // Only one table should remain
         expect(actual).not.contains(`test2`)
     })
+      it("includes system error", async () => {
+      const result: TestResult = {
+          counts: { passed: 0, failed: 1, skipped: 0 },
+          suites: [
+              {
+                  name: "TestSuite1",
+                  project: "testsuite-project-name",
+                  cases: [
+                      {
+                          status: TestStatus.Fail,
+                          name: "test1",
+                          description: "test",
+                          message: "expected:<99> but was:<98>",
+                          details:
+                              "junit.framework.AssertionFailedError: expected:<99> but was:<98>\n" +
+                              "\tat test.failsTestSix(Unknown Source)\n" +
+                              "\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n" +
+                              "\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\n" +
+                              "\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n" +
+                              "\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n" +
+                              "\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\n" +
+                              "\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n",
+                          duration: "0.005",
+                          flaky: true,
+                          flakyTestTicket:
+                              "https://jira.example.com/browse/TEST-1",
+                          run_count: 1,
+                          fail_count: 1
+                      },
+                      {
+                          status: TestStatus.Fail,
+                          name: "test2",
+                          description: "test",
+                          message: "expected:<99> but was:<98>",
+                          details:
+                              "junit.framework.AssertionFailedError: expected:<99> but was:<98>\n" +
+                              "\tat test.failsTestFive(Unknown Source)\n" +
+                              "\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n" +
+                              "\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\n" +
+                              "\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n" +
+                              "\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n" +
+                              "\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\n" +
+                              "\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n",
+                          duration: "0.005",
+                          run_count: 1,
+                          fail_count: 1,
+                          system_error: true
+                      }
+                  ]
+              }
+          ]
+      }
+      let actual = dashboardResults(result, TestStatus.Fail, true)
+      expect(actual).contains(`[CRASH]`)
+  })
+
 })

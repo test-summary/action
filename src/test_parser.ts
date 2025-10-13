@@ -42,6 +42,7 @@ export interface TestCase {
     fail_count?: number
     flaky?: boolean
     flakyTestTicket?: string
+    system_error?: boolean
 }
 
 export async function parseTap(data: string): Promise<TestResult> {
@@ -200,7 +201,8 @@ export async function parseTap(data: string): Promise<TestResult> {
             run_count: 0,
             fail_count: 0,
             flaky: false, // Flaky tests will be marked later
-            flakyTestTicket: undefined // This will be set later if flaky tests are marked
+            flakyTestTicket: undefined, // This will be set later if flaky tests are marked
+            system_error: false
         })
     }
 
@@ -256,6 +258,7 @@ async function parseJunitXml(xml: any): Promise<TestResult> {
 
         for (const testcase of testsuite.testcase) {
             let status = TestStatus.Pass
+            let system_error = false
 
             const classname = testcase.$.classname
             const name = testcase.$.name
@@ -270,7 +273,10 @@ async function parseJunitXml(xml: any): Promise<TestResult> {
 
                 counts.skipped++
             } else if (
-                (failure_or_error = testcase.failure || testcase.error)
+                (failure_or_error =
+                    testcase.failure ||
+                    testcase.error ||
+                    testcase["system-error"])
             ) {
                 status = TestStatus.Fail
 
@@ -284,6 +290,7 @@ async function parseJunitXml(xml: any): Promise<TestResult> {
                 }
 
                 counts.failed++
+                system_error = testcase["system-error"] ? true : false
             } else {
                 counts.passed++
             }
@@ -298,7 +305,8 @@ async function parseJunitXml(xml: any): Promise<TestResult> {
                 run_count: 0,
                 fail_count: 0,
                 flaky: false, // Flaky tests will be marked later
-                flakyTestTicket: undefined // This will be set later if flaky tests are marked
+                flakyTestTicket: undefined, // This will be set later if flaky tests are marked
+                system_error
             })
         }
 

@@ -91,10 +91,13 @@ export function dashboardResults(
 
             if (flakyTestsInfo && testcase.flaky) {
                 if (testcase.flakyTestTicket) {
-                    table += `<a href="${testcase.flakyTestTicket}" target="_blank">[FLAKY] </a> `
+                    table += `<a href="${testcase.flakyTestTicket}" target="_blank">[FLAKY]</a> `
                 } else {
-                    table += "[FLAKY] "
+                    table += "[FLAKY]"
                 }
+            }
+            if (testcase.system_error) {
+                table += "[CRASH] "
             }
             table += escapeHTML(testcase.name || unnamedTestCase)
 

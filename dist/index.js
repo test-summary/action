@@ -69,11 +69,14 @@ function dashboardResults(result, show, flakyTestsInfo = false, maxLength = unde
             }
             if (flakyTestsInfo && testcase.flaky) {
                 if (testcase.flakyTestTicket) {
-                    table += `<a href="${testcase.flakyTestTicket}" target="_blank">[FLAKY] </a> `;
+                    table += `<a href="${testcase.flakyTestTicket}" target="_blank">[FLAKY]</a> `;
                 }
                 else {
-                    table += "[FLAKY] ";
+                    table += "[FLAKY]";
                 }
+            }
+            if (testcase.system_error) {
+                table += "[CRASH] ";
             }
             table += (0, escape_html_1.default)(testcase.name || unnamedTestCase);
             if (testcase.description) {
@@ -661,7 +664,8 @@ function parseTap(data) {
                 run_count: 0,
                 fail_count: 0,
                 flaky: false,
-                flakyTestTicket: undefined // This will be set later if flaky tests are marked
+                flakyTestTicket: undefined,
+                system_error: false
             });
         }
         suites.push({
@@ -714,6 +718,7 @@ function parseJunitXml(xml) {
             }
             for (const testcase of testsuite.testcase) {
                 let status = TestStatus.Pass;
+                let system_error = false;
                 const classname = testcase.$.classname;
                 const name = testcase.$.name;
                 const duration = testcase.$.time;
@@ -724,7 +729,10 @@ function parseJunitXml(xml) {
                     status = TestStatus.Skip;
                     counts.skipped++;
                 }
-                else if ((failure_or_error = testcase.failure || testcase.error)) {
+                else if ((failure_or_error =
+                    testcase.failure ||
+                        testcase.error ||
+                        testcase["system-error"])) {
                     status = TestStatus.Fail;
                     const element = failure_or_error[0];
                     message = element.$ ? element.$.message : undefined;
@@ -735,6 +743,7 @@ function parseJunitXml(xml) {
                         details = element._;
                     }
                     counts.failed++;
+                    system_error = testcase["system-error"] ? true : false;
                 }
                 else {
                     counts.passed++;
@@ -749,7 +758,8 @@ function parseJunitXml(xml) {
                     run_count: 0,
                     fail_count: 0,
                     flaky: false,
-                    flakyTestTicket: undefined // This will be set later if flaky tests are marked
+                    flakyTestTicket: undefined,
+                    system_error
                 });
             }
             suites.push({

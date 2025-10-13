@@ -56,7 +56,7 @@ describe("file", async () => {
     it("identifies junit", async () => {
         const result = await parseFile(`${junitResourcePath}/03-junit.xml`)
         expect(result.counts.passed).to.eql(4)
-        expect(result.counts.failed).to.eql(4)
+        expect(result.counts.failed).to.eql(5)
         expect(result.counts.skipped).to.eql(2)
     })
 })
