@@ -122,7 +122,7 @@
     <skipped />
   </testcase>
   <testcase classname="test" name="failsTestEleven" time="0.002">
-    <system-error message="expected:&lt;[world]&gt; but was:&lt;[hello]&gt;" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: expected:&lt;[world]&gt; but was:&lt;[hello]&gt;
+    <system-err message="expected:&lt;[world]&gt; but was:&lt;[hello]&gt;" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: expected:&lt;[world]&gt; but was:&lt;[hello]&gt;
 	at test.failsTestEight(Unknown Source)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -130,7 +130,7 @@
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-</system-error>
+</system-err>
   </testcase>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>

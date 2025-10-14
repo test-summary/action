@@ -276,7 +276,7 @@ async function parseJunitXml(xml: any): Promise<TestResult> {
                 (failure_or_error =
                     testcase.failure ||
                     testcase.error ||
-                    testcase["system-error"])
+                    testcase["system-err"])
             ) {
                 status = TestStatus.Fail
 
@@ -290,7 +290,7 @@ async function parseJunitXml(xml: any): Promise<TestResult> {
                 }
 
                 counts.failed++
-                system_error = testcase["system-error"] ? true : false
+                system_error = testcase["system-err"] ? true : false
             } else {
                 counts.passed++
             }
