@@ -12,7 +12,7 @@ inputs:
   folded:
     description: Show each result in a folded details block
 runs:
-  using: 'node20'
+  using: 'node24'
   main: 'index.js'
 branding:
   icon: check-square
