@@ -35,7 +35,7 @@ function dashboardSummary(result) {
     return `<img src="${dashboardUrl}?p=${count.passed}&f=${count.failed}&s=${count.skipped}" alt="${summary}">`;
 }
 exports.dashboardSummary = dashboardSummary;
-function dashboardResults(result, show) {
+function dashboardResults(result, show, folded) {
     let table = "<table>";
     let count = 0;
     table += `<tr><th align="left">${statusTitle(show)}:</th></tr>`;
@@ -45,6 +45,9 @@ function dashboardResults(result, show) {
                 continue;
             }
             table += "<tr><td>";
+            if (folded) {
+                table += "<details><summary>";
+            }
             const icon = statusIcon(testcase.status);
             if (icon) {
                 table += icon;
@@ -54,6 +57,9 @@ function dashboardResults(result, show) {
             if (testcase.description) {
                 table += ": ";
                 table += (0, escape_html_1.default)(testcase.description);
+            }
+            if (folded) {
+                table += "</summary>";
             }
             if (testcase.message || testcase.details) {
                 table += "<br/>\n";
@@ -67,6 +73,9 @@ function dashboardResults(result, show) {
                     table += (0, escape_html_1.default)(testcase.details);
                     table += "</code></pre>";
                 }
+            }
+            if (folded) {
+                table += "</details>";
             }
             table += "</td></tr>\n";
             count++;
@@ -179,6 +188,7 @@ function run() {
             const pathGlobs = core.getInput("paths", { required: true });
             const outputFile = core.getInput("output") || process.env.GITHUB_STEP_SUMMARY || "-";
             const showList = core.getInput("show");
+            const folded = JSON.parse(core.getInput("folded") || "false");
             /*
              * Given paths may either be an individual path (eg "foo.xml"),
              * a path glob (eg "**TEST-*.xml"), or may be newline separated
@@ -248,7 +258,7 @@ function run() {
             /* Create and write the output */
             let output = (0, dashboard_1.dashboardSummary)(total);
             if (show) {
-                output += (0, dashboard_1.dashboardResults)(total, show);
+                output += (0, dashboard_1.dashboardResults)(total, show, folded);
             }
             if (outputFile === "-") {
                 console.log(output);
@@ -581,7 +591,7 @@ function parseFile(filename) {
             return yield parseTap(data);
         }
         const xml = yield parser(data);
-        if (xml.testsuites || xml.testsuite) {
+        if ('testsuites' in xml || 'testsuite' in xml) {
             return yield parseJunitXml(xml);
         }
         throw new Error(`unknown test file type for '${filename}'`);
