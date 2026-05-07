@@ -131,7 +131,7 @@ const lookup = {
     ">": "&gt;"
 };
 function escapeHTML(s) {
-    return s.replace(/[&"'<>]/g, c => lookup[c]);
+    return String(s).replace(/[&"'<>]/g, c => lookup[c] || c);
 }
 exports["default"] = escapeHTML;
 
@@ -331,7 +331,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.parseFile = exports.parseJunitFile = exports.parseTapFile = exports.parseJunit = exports.parseTap = exports.TestStatus = void 0;
+exports.parseFile = exports.parseTrx = exports.parseJunitFile = exports.parseJunit = exports.parseTapFile = exports.parseTap = exports.TestStatus = void 0;
 const fs = __importStar(__nccwpck_require__(7147));
 const util = __importStar(__nccwpck_require__(3837));
 const xml2js_1 = __importDefault(__nccwpck_require__(6189));
@@ -482,6 +482,13 @@ function parseTap(data) {
     });
 }
 exports.parseTap = parseTap;
+function parseTapFile(filename) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const readfile = util.promisify(fs.readFile);
+        return yield parseTap(yield readfile(filename, "utf8"));
+    });
+}
+exports.parseTapFile = parseTapFile;
 function parseJunitXml(xml) {
     return __awaiter(this, void 0, void 0, function* () {
         let testsuites;
@@ -566,13 +573,6 @@ function parseJunit(data) {
     });
 }
 exports.parseJunit = parseJunit;
-function parseTapFile(filename) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const readfile = util.promisify(fs.readFile);
-        return yield parseTap(yield readfile(filename, "utf8"));
-    });
-}
-exports.parseTapFile = parseTapFile;
 function parseJunitFile(filename) {
     return __awaiter(this, void 0, void 0, function* () {
         const readfile = util.promisify(fs.readFile);
@@ -580,6 +580,66 @@ function parseJunitFile(filename) {
     });
 }
 exports.parseJunitFile = parseJunitFile;
+function parseTrx(xml) {
+    var _a, _b, _c, _d, _e, _f;
+    return __awaiter(this, void 0, void 0, function* () {
+        if (xml.TestRun.$.xmlns != "http://microsoft.com/schemas/VisualStudio/TeamTest/2010"
+            || !Array.isArray(xml.TestRun.Results)) {
+            throw new Error("Not a valid .trx file.");
+        }
+        const suites = [];
+        const counts = {
+            passed: 0,
+            failed: 0,
+            skipped: 0
+        };
+        for (const result of xml.TestRun.Results) {
+            const cases = [];
+            if (!Array.isArray(result.UnitTestResult)) {
+                continue;
+            }
+            for (const item of result.UnitTestResult) {
+                let status = TestStatus.Pass;
+                const id = item.$.testId;
+                const name = item.$.testName;
+                const duration = item.$.duration;
+                const outcome = item.$.outcome;
+                let message = undefined;
+                let details = "";
+                const output = (_a = item === null || item === void 0 ? void 0 : item.Output) === null || _a === void 0 ? void 0 : _a[0];
+                details = "StdOut:" + ((_b = output === null || output === void 0 ? void 0 : output.StdOut) === null || _b === void 0 ? void 0 : _b[0]);
+                if (outcome == "Passed") {
+                    counts.passed++;
+                }
+                else if (outcome == "Failed") {
+                    status = TestStatus.Fail;
+                    counts.failed++;
+                    message = (_d = (_c = output === null || output === void 0 ? void 0 : output.ErrorInfo) === null || _c === void 0 ? void 0 : _c[0]) === null || _d === void 0 ? void 0 : _d.Message;
+                    details = "StackTrace:" + ((_f = (_e = output === null || output === void 0 ? void 0 : output.ErrorInfo) === null || _e === void 0 ? void 0 : _e[0]) === null || _f === void 0 ? void 0 : _f.StackTrace) + '\n' + details;
+                }
+                else {
+                    status = TestStatus.Pass;
+                    counts.skipped++;
+                }
+                cases.push({
+                    status: status,
+                    name: name,
+                    message: message,
+                    details: details,
+                    duration: duration
+                });
+            }
+            suites.push({
+                cases: cases
+            });
+        }
+        return {
+            counts: counts,
+            suites: suites
+        };
+    });
+}
+exports.parseTrx = parseTrx;
 function parseFile(filename) {
     return __awaiter(this, void 0, void 0, function* () {
         const readfile = util.promisify(fs.readFile);
@@ -593,6 +653,9 @@ function parseFile(filename) {
         const xml = yield parser(data);
         if ('testsuites' in xml || 'testsuite' in xml) {
             return yield parseJunitXml(xml);
+        }
+        if ('TestRun' in xml) {
+            return yield parseTrx(xml);
         }
         throw new Error(`unknown test file type for '${filename}'`);
     });
